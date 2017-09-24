@@ -8,56 +8,6 @@ const columnData = [
   { id: 'duration', label: 'Dauer (h)' },
 ];
 
-const tableData = [
-	{
-		id: '1',
-		name: '470er Selvstarter',
-		duration: 31,
-	},
-	{
-		id: '2',
-		name: 'AG IV',
-		duration: 1689,
-	},
-	{
-		id: '3',
-		name: 'ASV Allgemein',
-		duration: 57,
-	},
-	{
-		id: '4',
-		name: 'Ausbildung',
-		duration: 290,
-	},
-	{
-		id: '5',
-		name: 'Cameron Dyas',
-		duration: 49,
-	},
-	{
-		id: '6',
-		name: 'Dyas Rudolph Rotnase',
-		duration: 247,
-	},
-	{
-		id: '7',
-		name: 'Etage',
-		duration: 147.5,
-	},
-	{
-		id: '8',
-		name: 'Folkeboot Amme',
-		duration: 1250,
-	},
-	{
-		id: '9',
-		name: 'Halle Aachen',
-		duration: 1337,
-	},
-
-];
-
-
 class EnhancedTableHead extends React.Component {
   static propTypes = {
     onRequestSort: PropTypes.func.isRequired,
@@ -97,11 +47,11 @@ class EnhancedTableHead extends React.Component {
 }
 
 export default class ProjectTable extends React.Component {
-  state = {
-    order: 'asc',
-    orderBy: 'name',
-    data: tableData,
+
+  static propTypes = {
+    projects: PropTypes.array.isRequired,
   };
+
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -118,13 +68,22 @@ export default class ProjectTable extends React.Component {
     this.setState({ data, order, orderBy });
   };
 
+  constructor(props) {
+	  super(props);
+
+	  this.state = {
+	    order: 'asc',
+	    orderBy: 'name',
+	    data: props.projects,
+	  };
+  }
+
   render() {
     const { data, order, orderBy } = this.state;
 
    const style = {
    	textAlign: 'center',
    }
-
     return (
         <Table>
           <EnhancedTableHead

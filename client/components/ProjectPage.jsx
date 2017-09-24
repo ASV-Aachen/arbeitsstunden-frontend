@@ -24,11 +24,60 @@ import ProjectTable from './ProjectTable.jsx'
   }
   ];
 
+const projectsData = [
+	{
+		id: '1',
+		name: '470er Selvstarter',
+		duration: 31,
+	},
+	{
+		id: '2',
+		name: 'AG IV',
+		duration: 1689,
+	},
+	{
+		id: '3',
+		name: 'ASV Allgemein',
+		duration: 57,
+	},
+	{
+		id: '4',
+		name: 'Ausbildung',
+		duration: 290,
+	},
+	{
+		id: '5',
+		name: 'Cameron Dyas',
+		duration: 49,
+	},
+	{
+		id: '6',
+		name: 'Dyas Rudolph Rotnase',
+		duration: 247,
+	},
+	{
+		id: '7',
+		name: 'Etage',
+		duration: 147.5,
+	},
+	{
+		id: '8',
+		name: 'Folkeboot Amme',
+		duration: 1250,
+	},
+	{
+		id: '9',
+		name: 'Halle Aachen',
+		duration: 1337,
+	},
+
+];
+
 export default class ProjectPage extends React.Component {
   state = {
     anchorEl: null,
     open: false,
-    currentYear:  0,
+    selectedYear:  1,
   };
 
    handleClick = event => {
@@ -45,7 +94,7 @@ export default class ProjectPage extends React.Component {
 	    <AppBar position='static'>
 		<Toolbar>
 			<Typography type="title" color="inherit" style={{flex:'1'}}>
-				Projekte für Saison {availableYears[this.state.currentYear].label} 
+				Projekte für Saison {availableYears[this.state.selectedYear].label} 
 			</Typography>
 			
 	    		<Button raised 
@@ -61,9 +110,9 @@ export default class ProjectPage extends React.Component {
 				  open={this.state.open}
 				  onRequestClose={this.handleRequestClose}
 				>
-					{availableYears.map(availableYear => {
+					{availableYears.map((availableYear, index) => {
 				    return (
-				  	<MenuItem key={availableYear.value} onClick={this.handleRequestClose}>{availableYear.label}</MenuItem>
+				  	<MenuItem key={availableYear.value} selected={index==this.state.selectedYear}  onClick={this.handleRequestClose}>{availableYear.label}</MenuItem>
 				    );
 				  }, this)}
 
@@ -72,7 +121,7 @@ export default class ProjectPage extends React.Component {
         	</Toolbar>	    	
 	    </AppBar>
 
-	    <ProjectTable />
+	    <ProjectTable projects={projectsData}/>
 	</Paper>
     );
   }
