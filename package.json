@@ -1,0 +1,29 @@
+{
+  "name": "asv-workinghours-frontend",
+  "version": "1.0.0",
+  "description": "the frontend of the asv-workinghours-backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "karma start",
+    "build": "webpack --config webpack.config.js"
+  },
+  "author": "Ralf Bettermann",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2"
+  },
+  "dependencies": {
+    "material-ui": "^1.0.0-beta.12",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-tap-event-plugin": "^2.0.1"
+  }
+}
