@@ -6,23 +6,24 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import AppBar from 'material-ui/AppBar';
+
 import ProjectTable from './ProjectTable.jsx'
 
 
-  const availableYears = [
-  {
-    value: '2015',
-    label: '2015/2016',
-  },
-  {
-    value: '2016',
-    label: '2016/2017',
-  },
-  {
-    value: '2017',
-    label: '2017/2018',
-  }
-  ];
+const availableYears = [
+	{
+		value: '2015',
+		label: '2015/2016',
+	},
+	{
+		value: '2016',
+		label: '2016/2017',
+	},
+	{
+		value: '2017',
+		label: '2017/2018',
+	}
+];
 
 const projectsData = [
 	{
@@ -74,55 +75,60 @@ const projectsData = [
 ];
 
 export default class ProjectPage extends React.Component {
-  state = {
-    anchorEl: null,
-    open: false,
-    selectedYear:  1,
-  };
+	state = {
+		anchorEl: null,
+		open: false,
+		selectedYear:  1,
+	};
 
-   handleClick = event => {
-    this.setState({ open: true, anchorEl: event.currentTarget });
-  };
+	handleClick = event => {
+		this.setState({ open: true, anchorEl: event.currentTarget });
+	};
 
-  handleRequestClose = () => {
-    this.setState({ open: false });
-  };
+	handleRequestClose = () => {
+		this.setState({ open: false });
+	};
 
-  render() {
-    return (
-	<Paper>
-	    <AppBar position='static'>
-		<Toolbar>
-			<Typography type="title" color="inherit" style={{flex:'1'}}>
-				Projekte für Saison {availableYears[this.state.selectedYear].label} 
-			</Typography>
-			
-	    		<Button raised 
-				  aria-owns={this.state.open ? 'simple-menu' : null}
-				  aria-haspopup="true"
-				  onClick={this.handleClick}
-				>
-					Saison wählen 
-				</Button>
-				<Menu
-				  id="simple-menu"
-				  anchorEl={this.state.anchorEl}
-				  open={this.state.open}
-				  onRequestClose={this.handleRequestClose}
-				>
-					{availableYears.map((availableYear, index) => {
-				    return (
-				  	<MenuItem key={availableYear.value} selected={index==this.state.selectedYear}  onClick={this.handleRequestClose}>{availableYear.label}</MenuItem>
-				    );
-				  }, this)}
+	render() {
+		return (
+			<Paper>
+				<AppBar position='static'>
+					<Toolbar>
+						<Typography type="title" color="inherit" style={{flex:'1'}}>
+							Projekte für Saison {availableYears[this.state.selectedYear].label} 
+						</Typography>
 
-				</Menu>
+						<Button raised 
+							aria-owns={this.state.open ? 'simple-menu' : null}
+							aria-haspopup="true"
+							onClick={this.handleClick}
+						>
+							Saison wählen 
+						</Button>
+						<Menu
+							id="simple-menu"
+							anchorEl={this.state.anchorEl}
+							open={this.state.open}
+							onRequestClose={this.handleRequestClose}
+						>
+							{availableYears.map((availableYear, index) => {
+								return (
+									<MenuItem 
+										key={availableYear.value} 
+										selected={index==this.state.selectedYear}  
+										onClick={this.handleRequestClose}
+									>
+											{availableYear.label}
+									</MenuItem>
+								);
+							}, this)}
+						</Menu>
+					</Toolbar>	    	
+				</AppBar>
 
-        	</Toolbar>	    	
-	    </AppBar>
+				<ProjectTable projects={projectsData}/>
 
-	    <ProjectTable projects={projectsData}/>
-	</Paper>
-    );
-  }
+			</Paper>
+		);
+	}
 }

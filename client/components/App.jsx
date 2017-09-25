@@ -9,22 +9,21 @@ import { grey, amber, red} from 'material-ui/colors';
 const muiTheme = createMuiTheme();
 
 const styles = theme => ({
-  '@global': {
-    html: {
-      background: theme.palette.background.default,
-      WebkitFontSmoothing: 'antialiased', // Antialiasing.
-      MozOsxFontSmoothing: 'grayscale', // Antialiasing.
-    },
-    body: {
-      margin: 10,
-    },
-  },
+	'@global': {
+		html: {
+			background: theme.palette.background.default,
+			WebkitFontSmoothing: 'antialiased', // Antialiasing.
+			MozOsxFontSmoothing: 'grayscale', // Antialiasing.
+		},
+		body: {
+			margin: 10,
+		},
+	},
 });
 
 
 let AppWrapper = props => props.children;
 AppWrapper = withStyles(styles)(AppWrapper);
-
 
 export default class App extends React.Component {
 	render() {
@@ -33,7 +32,7 @@ export default class App extends React.Component {
 				<AppWrapper>
 					<ProjectPage />
 				</AppWrapper>
-         		 </MuiThemeProvider>
+			</MuiThemeProvider>
 		);
 	}
 }
