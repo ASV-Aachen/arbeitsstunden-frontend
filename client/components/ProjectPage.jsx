@@ -1,4 +1,5 @@
 import React from 'react';
+import request from 'superagent';
 
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
@@ -6,24 +7,9 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import AppBar from 'material-ui/AppBar';
+import Snackbar from 'material-ui/Snackbar';
 
 import ProjectTable from './ProjectTable.jsx'
-
-
-const availableYears = [
-	{
-		value: '2015',
-		label: '2015/2016',
-	},
-	{
-		value: '2016',
-		label: '2016/2017',
-	},
-	{
-		value: '2017',
-		label: '2017/2018',
-	}
-];
 
 const projectsData = [
 	{
@@ -74,28 +60,81 @@ const projectsData = [
 
 ];
 
+
+
 export default class ProjectPage extends React.Component {
-	state = {
-		anchorEl: null,
-		open: false,
-		selectedYear:  1,
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			anchorEl: null,
+			open: false,
+			snackbarOpen: false,
+			currentYear: 0,
+			availableSeasons: [],
+			seasonLabels: null
+		};
+
 	};
+
+	componentWillMount() {
+        this.loadInitialProjects();
+    };
+
+	loadInitialProjects = () => {
+        const endpoint = 'http://localhost:8081/api/projects/current';
+
+        request.get(endpoint)
+            .set('Content-Type', 'application/json')
+            .then(success => {
+
+				const body = success.body;
+
+				const seasonLabels = body.seasons.reduce(function(map, obj) {
+					map[obj.year] = obj.label;
+					return map;
+				}, {});
+
+				this.setState({currentYear: body.currentYear, availableSeasons: body.seasons.sort(function (a,b) {return b.year - a.year}), seasonLabels: seasonLabels });
+            }, failure => {
+                console.error("Error: getting current projects (Response: ", failure.status, ")", failure);
+				this.setState({ snackbarOpen: true});
+            });
+     }
 
 	handleClick = event => {
 		this.setState({ open: true, anchorEl: event.currentTarget });
 	};
 
-	handleRequestClose = () => {
+	handleRequestClose = (event) => {
 		this.setState({ open: false });
 	};
 
+	handleSnackbarClose = (event) => {
+		this.setState({ snackbarOpen: false });
+	};
+
+	handleMenuItemClick = (event, selectedYear) => {
+		this.setState({ currentYear: selectedYear, open: false });
+  	};
+
 	render() {
+		const { anchorEl, open, snackbarOpen, currentYear, availableSeasons, seasonLabels } = this.state;
+
+			
+
 		return (
+
+
 			<Paper>
 				<AppBar position='static'>
 					<Toolbar>
 						<Typography type="title" color="inherit" style={{flex:'1'}}>
-							Projekte für Saison {availableYears[this.state.selectedYear].label} 
+
+					{availableSeasons.length > 0 && 
+				
+							<span>Projekte für Saison {seasonLabels[currentYear]}</span> 
+					}
 						</Typography>
 
 						<Button raised 
@@ -111,14 +150,14 @@ export default class ProjectPage extends React.Component {
 							open={this.state.open}
 							onRequestClose={this.handleRequestClose}
 						>
-							{availableYears.map((availableYear, index) => {
+							{availableSeasons.map((availableYear, index) => {
 								return (
 									<MenuItem 
-										key={availableYear.value} 
-										selected={index==this.state.selectedYear}  
-										onClick={this.handleRequestClose}
+										key={availableYear.year} 
+										selected={availableYear.year==currentYear}  
+										onClick={event => this.handleMenuItemClick(event, availableYear.year)}
 									>
-											{availableYear.label}
+										{availableYear.label}
 									</MenuItem>
 								);
 							}, this)}
@@ -127,6 +166,16 @@ export default class ProjectPage extends React.Component {
 				</AppBar>
 
 				<ProjectTable projects={projectsData}/>
+
+					 <Snackbar
+					  anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}}
+					  open={this.state.snackbarOpen}
+					  SnackbarContentProps={{
+						'aria-describedby': 'message-id',
+					  }}
+					  message={<span id="message-id">Fehler beim laden der Projekte. Versuche es später nochmal.</span>}
+					  onRequestClose={this.handleSnackbarClose}
+					/>
 
 			</Paper>
 		);
