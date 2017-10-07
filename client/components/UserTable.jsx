@@ -4,8 +4,11 @@ import Toolbar from 'material-ui/Toolbar';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
 
 const columnData = [
-	{ id: 'name', label: 'Name' },
+	{ id: 'lastname', label: 'Name' },
+	{ id: 'firstname', label: 'Vorname' },
+	{ id: 'status', label: 'Status' },
 	{ id: 'duration', label: 'Dauer (h)' },
+	{ id: 'segelstatussTBD', label: 'SegelstatusTBD' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -46,7 +49,7 @@ class EnhancedTableHead extends React.Component {
 
 export default class ProjectTable extends React.Component {
 	static propTypes = {
-		projects: PropTypes.array.isRequired,
+		users: PropTypes.array.isRequired,
 	};
 
 	constructor(props) {
@@ -55,13 +58,13 @@ export default class ProjectTable extends React.Component {
 		this.state = {
 			order: 'asc',
 			orderBy: 'name',
-			sortedData: this.sortBy(props.projects, 'asc', 'name')
+			sortedData: this.sortBy(props.users, 'asc', 'name')
 		};
 	};
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			sortedData: this.sortBy(props.projects, this.state.order, this.state.orderBy)
+			sortedData: this.sortBy(props.users, this.state.order, this.state.orderBy)
 		});
 	}
 
@@ -101,17 +104,21 @@ export default class ProjectTable extends React.Component {
 					onRequestSort={this.handleRequestSort}
 				/>
 				<TableBody>
-					{sortedData.map(n => {
+					{sortedData.map(u => {
 						return (
-							<TableRow key={n.id}>
-								<TableCell>{n.name}</TableCell>
-								<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
+							<TableRow key={u.id}>
+								<TableCell>{u.firstName}</TableCell>
+								<TableCell>{u.lastName}</TableCell>
+								<TableCell>{u.status}</TableCell>
+								<TableCell>{u.duration}</TableCell>
+								<TableCell>{u.sailingStatus}</TableCell>
+
 							</TableRow>
 						);
 					})}
 					{sortedData.length == 0 &&
 							<TableRow>
-								<TableCell style={{textAlign:'center'}} colSpan={3}>Keine Projekte gefunden</TableCell>
+								<TableCell style={{textAlign:'center'}} colSpan={3}>Keine Mitglieder gefunden</TableCell>
 							</TableRow>
 					}
 				</TableBody>

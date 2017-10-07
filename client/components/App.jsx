@@ -1,8 +1,12 @@
 import React from 'react';
 
 import ProjectPage from './ProjectPage.jsx'
+import CreateWorkingHourPage from './CreateWorkingHourPage.jsx'
+import CreateUserPage from './CreateUserPage.jsx'
+import UserListPage from './UserListPage.jsx'
 
 import Button from 'material-ui/Button';
+import Grid from 'material-ui/Grid'
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles'
 import { grey, amber, red} from 'material-ui/colors';
 
@@ -30,7 +34,17 @@ export default class App extends React.Component {
 		return (
 			<MuiThemeProvider theme={muiTheme}>
 				<AppWrapper>
-					<ProjectPage />
+					 <Grid container spacing={24}>
+					    <Grid item xs={12} sm={6}>
+							<ProjectPage />
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<CreateWorkingHourPage />
+						</Grid>
+						<Grid item xs={12} sm={12}>
+							<UserListPage />
+						</Grid>
+					  </Grid>
 				</AppWrapper>
 			</MuiThemeProvider>
 		);

@@ -1,66 +1,17 @@
 import React from 'react';
 import request from 'superagent';
 
+import AddIcon from 'material-ui-icons/Add';
+import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 
 import ProjectTable from './ProjectTable.jsx'
-
-const projectsData = [
-	{
-		id: '1',
-		name: '470er Selvstarter',
-		duration: 31,
-	},
-	{
-		id: '2',
-		name: 'AG IV',
-		duration: 1689,
-	},
-	{
-		id: '3',
-		name: 'ASV Allgemein',
-		duration: 57,
-	},
-	{
-		id: '4',
-		name: 'Ausbildung',
-		duration: 290,
-	},
-	{
-		id: '5',
-		name: 'Cameron Dyas',
-		duration: 49,
-	},
-	{
-		id: '6',
-		name: 'Dyas Rudolph Rotnase',
-		duration: 247,
-	},
-	{
-		id: '7',
-		name: 'Etage',
-		duration: 147.5,
-	},
-	{
-		id: '8',
-		name: 'Folkeboot Amme',
-		duration: 1250,
-	},
-	{
-		id: '9',
-		name: 'Halle Aachen',
-		duration: 1337,
-	},
-
-];
-
-
+import CreateProjectPage from './CreateProjectPage.jsx'
 
 export default class ProjectPage extends React.Component {
 	constructor(props) {
@@ -70,11 +21,12 @@ export default class ProjectPage extends React.Component {
 			anchorEl: null,
 			open: false,
 			snackbarOpen: false,
-			currentYear: 0,
+			createDialogOpen: false,
+			currentProjects: null,
+			currentYear: '',
 			availableSeasons: [],
 			seasonLabels: null
 		};
-
 	};
 
 	componentWillMount() {
@@ -95,9 +47,32 @@ export default class ProjectPage extends React.Component {
 					return map;
 				}, {});
 
-				this.setState({currentYear: body.currentYear, availableSeasons: body.seasons.sort(function (a,b) {return b.year - a.year}), seasonLabels: seasonLabels });
+				this.setState({
+					currentProjects: body.projects,
+					currentYear: body.currentYear,
+					availableSeasons: body.seasons.sort(function (a,b) {return b.year - a.year}),
+					seasonLabels: seasonLabels
+				});
             }, failure => {
                 console.error("Error: getting current projects (Response: ", failure.status, ")", failure);
+				this.setState({ snackbarOpen: true});
+            });
+     }
+
+	loadProjects = (year) => {
+        const endpoint = 'http://localhost:8081/api/projects/' + year;
+
+        request.get(endpoint)
+            .set('Content-Type', 'application/json')
+            .then(success => {
+
+				const projects = success.body;
+
+				this.setState({
+					currentProjects: projects,
+				});
+            }, failure => {
+                console.error("Error: getting projects (Response: ", failure.status, ")", failure);
 				this.setState({ snackbarOpen: true});
             });
      }
@@ -106,43 +81,68 @@ export default class ProjectPage extends React.Component {
 		this.setState({ open: true, anchorEl: event.currentTarget });
 	};
 
+	handleClickAdd = event => {
+		this.setState({ createDialogOpen: true});
+	};
+
+
 	handleRequestClose = (event) => {
 		this.setState({ open: false });
 	};
 
 	handleSnackbarClose = (event) => {
-		this.setState({ snackbarOpen: false });
+		this.setState({ snackbarOpen: false, snackbarCreateOpen:false });
 	};
 
 	handleMenuItemClick = (event, selectedYear) => {
-		this.setState({ currentYear: selectedYear, open: false });
+		this.setState({
+			currentYear: selectedYear,
+			currentProjects: null,
+			open: false,
+		});
+
+		this.loadProjects(selectedYear);
   	};
 
-	render() {
-		const { anchorEl, open, snackbarOpen, currentYear, availableSeasons, seasonLabels } = this.state;
+	handleRequestCreateDialogClose = () => {
+		this.setState({ createDialogOpen: false});
+	};
 
-			
+	handleRequestProjectCreated = () => {
+		this.setState({
+			createDialogOpen:false,
+			snackbarCreateOpen: true
+		});
+	};
+
+	render() {
+		const { snackbarCreateOpen, createDialogOpen, anchorEl, open, snackbarOpen, currentProjects, currentYear, availableSeasons, seasonLabels } = this.state;
 
 		return (
-
-
-			<Paper>
+			<Paper style={{position:'relative'}}>
+				<CreateProjectPage
+					open={createDialogOpen}
+					currentSeason={currentYear}
+					availableSeasons={availableSeasons}
+					onRequestClose={this.handleRequestCreateDialogClose}
+					onRequestCloseCreated={this.handleRequestProjectCreated}
+				 />
 				<AppBar position='static'>
 					<Toolbar>
 						<Typography type="title" color="inherit" style={{flex:'1'}}>
 
-					{availableSeasons.length > 0 && 
-				
-							<span>Projekte für Saison {seasonLabels[currentYear]}</span> 
+					{availableSeasons.length > 0 &&
+
+							<span>Projekte für Saison {seasonLabels[currentYear]}</span>
 					}
 						</Typography>
 
-						<Button raised 
+						<Button raised
 							aria-owns={this.state.open ? 'simple-menu' : null}
 							aria-haspopup="true"
 							onClick={this.handleClick}
 						>
-							Saison wählen 
+							Saison wählen
 						</Button>
 						<Menu
 							id="simple-menu"
@@ -152,9 +152,9 @@ export default class ProjectPage extends React.Component {
 						>
 							{availableSeasons.map((availableYear, index) => {
 								return (
-									<MenuItem 
-										key={availableYear.year} 
-										selected={availableYear.year==currentYear}  
+									<MenuItem
+										key={availableYear.year}
+										selected={availableYear.year==currentYear}
 										onClick={event => this.handleMenuItemClick(event, availableYear.year)}
 									>
 										{availableYear.label}
@@ -162,10 +162,17 @@ export default class ProjectPage extends React.Component {
 								);
 							}, this)}
 						</Menu>
-					</Toolbar>	    	
+					</Toolbar>
 				</AppBar>
+				<Button fab color="accent" aria-label="add" style={{position:'absolute',right:0}} onClick={this.handleClickAdd}>
+					<AddIcon />
+				</Button>
+				Klick auf Zeile oeffnet detail Seite vom Projekt
+				Detailseite Projekt erstellen
 
-				<ProjectTable projects={projectsData}/>
+			{currentProjects != null &&
+				<ProjectTable projects={currentProjects} />
+			}
 
 					 <Snackbar
 					  anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}}
@@ -176,6 +183,16 @@ export default class ProjectPage extends React.Component {
 					  message={<span id="message-id">Fehler beim laden der Projekte. Versuche es später nochmal.</span>}
 					  onRequestClose={this.handleSnackbarClose}
 					/>
+
+					<Snackbar
+					 anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}}
+					 open={snackbarCreateOpen}
+					 SnackbarContentProps={{
+					 'aria-describedby': 'message-id',
+					 }}
+					 message={<span id="message-id">Projekt wurde erfolgreich angelegt</span>}
+					 onRequestClose={this.handleSnackbarClose}
+				 />
 
 			</Paper>
 		);
