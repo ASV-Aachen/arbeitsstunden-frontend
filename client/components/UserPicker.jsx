@@ -16,7 +16,8 @@ export default class UserPicker extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchFilter: ''
+			searchFilter: '',
+			selectedUsers: []
 		}
 	}
 
@@ -34,22 +35,35 @@ export default class UserPicker extends React.PureComponent {
 	}
 
 	handleSelectUser = (user) => {
-		console.log('selected User: ', user);
+		this.setState(prevState => ({
+			selectedUsers: [...prevState.selectedUsers, user]
+		}))
 	}
 
 	handleRemoveUser = (user) => {
-		console.log('remove User: ', user);
+		let filteredArray = this.state.selectedUsers.filter(item => item.id !== user.id)
+		this.setState({selectedUsers: filteredArray});
 	}
 
 	render() {
 		const { users } = this.props;
-		const { searchFilter } = this.state;
+		const { searchFilter, selectedUsers } = this.state;
+
+		const userListItems = users.filter(user => {
+			var isContained = false;
+			selectedUsers.forEach((selectedUser) => {
+				if (selectedUser.id === user.id) {
+					isContained = true;
+				}
+			});
+			return !isContained;
+		}); 
 
 		return (
 			<span>
-				<SelectedUsers users={users} onDelete={this.handleRemoveUser}/>
+				<SelectedUsers users={selectedUsers} onDelete={this.handleRemoveUser}/>
 				<SearchField onChange={this.handleSearchChange} />
-				<UserList users={this.filterList(users, searchFilter)} onSelect={this.handleSelectUser} />
+				<UserList users={this.filterList(userListItems, searchFilter)} onSelect={this.handleSelectUser} />
 			</span>
 		);
 	}
