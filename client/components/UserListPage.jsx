@@ -17,19 +17,19 @@ import CreateUserPage from './CreateUserPage.jsx'
 export default class UserListPage extends React.Component {
 
 	state = {
-    open: false,
+		open: false,
 		currentUsers: [],
-  };
+	};
 
 	componentWillMount() {
-				this.loadUsers();
-		};
+		this.loadUsers();
+	};
 
 	handleClickAdd = () => {
-    this.setState({
-      open: true,
-    });
-  };
+		this.setState({
+			open: true,
+		});
+	};
 
 	handleRequestCloseCanceled = () => {
 		this.setState({
@@ -59,7 +59,6 @@ export default class UserListPage extends React.Component {
             .then(success => {
 
 				const users = success.body;
-					console.log(users);
 					this.setState({
 						currentUsers: users,
 					});

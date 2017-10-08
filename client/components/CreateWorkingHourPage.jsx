@@ -1,4 +1,5 @@
 import React from 'react';
+import Request from 'superagent';
 import PropTypes from 'prop-types';
 
 import AppBar from 'material-ui/AppBar';
@@ -10,21 +11,49 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
 
-import ProjectPicker from './ProjectPicker.jsx'
-import SeasonPicker from './SeasonPicker.jsx'
-import UserPicker from './UserPicker.jsx'
+import ProjectPicker from './ProjectPicker.jsx';
+import SeasonPicker from './SeasonPicker.jsx';
+import UserPicker from './UserPicker.jsx';
+
+import { Config } from '../../config.js';
 
 export default class CreateWorkingHourPage extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			users: [],
+		};
+	};
+
+	componentWillMount() {
+		this.loadUsers();
+	};
+
+	loadUsers = () => {
+		const endpoint = Config.baseurl + Config.endpoints.users;
+		Request.get(endpoint)
+			.set('Content-Type', 'application/json')
+			.then(success => {
+				const users = success.body;
+				this.setState({
+					users: users,
+				});
+			}, failure => {
+				console.error("Error: getting projects (Response: ", failure.status, ")", failure);
+			});
+	}
 
 	handleSelectSeason = (selectedSeason) => {
 		console.log("selectedSeason" + selectedSeason);
-	};
+	}
 
 	handleSelectProject = (selectedProject) => {
 		console.log("selectedProject" + selectedProject);
-	};
+	}
 
 	render() {
+		const { users } = this.state;
 
 		return (
 			<Paper>
@@ -57,7 +86,7 @@ export default class CreateWorkingHourPage extends React.Component {
 				</Paper>
 				<Paper>
 					Step 3: Mitglieder und Stunden hinzufugen 
-					<UserPicker users={[{id: "b2388d82-0b47-49b8-bdf4-d088b31d43f5", firstName: "Ralf", lastName: "Bettermann", email: "ralf.bettermann@rwth-aachen.de"},{id: "fba80af3-26a6-409d-b209-90bb14b18603", firstName: "Max", lastName: "Mohr", email: "max@mohr.de"}]} />
+					<UserPicker users={users} />
 					NEXT
 				</Paper>
 				<Paper>

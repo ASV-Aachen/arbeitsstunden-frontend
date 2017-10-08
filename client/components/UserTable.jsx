@@ -4,10 +4,10 @@ import Toolbar from 'material-ui/Toolbar';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
 
 const columnData = [
-	{ id: 'lastname', label: 'Name' },
-	{ id: 'firstname', label: 'Vorname' },
-	{ id: 'status', label: 'Status' },
-	{ id: 'duration', label: 'Dauer (h)' },
+	{ id: 'lastName', label: 'Name' },
+	{ id: 'firstName', label: 'Vorname' },
+	{ id: 'statusTBD', label: 'Status' },
+	{ id: 'durationTBD', label: 'Dauer (h)' },
 	{ id: 'segelstatussTBD', label: 'SegelstatusTBD' },
 ];
 
@@ -57,16 +57,9 @@ export default class ProjectTable extends React.Component {
 
 		this.state = {
 			order: 'asc',
-			orderBy: 'name',
-			sortedData: this.sortBy(props.users, 'asc', 'name')
+			orderBy: 'lastName'	
 		};
 	};
-
-	componentWillReceiveProps(props) {
-		this.setState({
-			sortedData: this.sortBy(props.users, this.state.order, this.state.orderBy)
-		});
-	}
 
 	handleRequestSort = (event, property) => {
 		const orderBy = property;
@@ -76,25 +69,29 @@ export default class ProjectTable extends React.Component {
 			order = 'asc';
 		}
 
-		const newSortedData = this.sortBy(this.state.sortedData, order, orderBy)
-
-		this.setState({ newSortedData, order, orderBy });
+		this.setState({ 
+			order: order, 
+			orderBy: orderBy 
+		});
 	};
 
 	sortBy = (data, order, orderBy) => {
-		if (orderBy == 'duration') {
-			return data.sort(
-				(a, b) => (order === 'desc' ? b[orderBy] - a[orderBy] : a[orderBy] - b[orderBy])
-			);
-		} else {
-			return data.sort(
-				(a, b) => (order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy])
-			);
-		}
+		return data.sort(
+			(a, b) => {
+				if (order === 'desc') {
+					return ( ( a[orderBy] == b[orderBy]) ? 0 : ( ( b[orderBy] > a[orderBy]) ? 1 : -1 ) );	
+				} else {
+					return ( ( a[orderBy] == b[orderBy]) ? 0 : ( ( a[orderBy] > b[orderBy]) ? 1 : -1 ) );	
+				}
+			}
+		);
 	}
 
 	render() {
-		const { sortedData, order, orderBy } = this.state;
+		const { order, orderBy } = this.state;
+		const { users } = this.props;
+
+		const sortedData = this.sortBy(users, order, orderBy);
 
 		return (
 			<Table>
@@ -107,8 +104,8 @@ export default class ProjectTable extends React.Component {
 					{sortedData.map(u => {
 						return (
 							<TableRow key={u.id}>
-								<TableCell>{u.firstName}</TableCell>
 								<TableCell>{u.lastName}</TableCell>
+								<TableCell>{u.firstName}</TableCell>
 								<TableCell>{u.status}</TableCell>
 								<TableCell>{u.duration}</TableCell>
 								<TableCell>{u.sailingStatus}</TableCell>
