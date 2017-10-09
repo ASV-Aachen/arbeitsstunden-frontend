@@ -9,26 +9,38 @@ import Select from 'material-ui/Select';
 export default class SeasonPicker extends React.PureComponent {
 	static propTypes = {
 		seasons: PropTypes.array.isRequired,
-		selected: PropTypes.string.isRequired,
+		selected: PropTypes.number.isRequired,
+		current: PropTypes.number.isRequired,
 		onChange: PropTypes.func.isRequired,
 	};
 
-	render() {
+	getSeasonLabel = (current, year, label) => {
+		if (year == current) {
+			return label + " (aktuelle)";	
+		} else if(year == current - 1) {
+			return label + " (vorherige)";	
+		} else if(year == current + 1) {
+			return label + " (nächste)";
+		} else {
+			return label;
+		}
+	}
 
-		const { seasons, selected, onChange } = this.props
+	render() {
+		const { seasons, selected, current, onChange } = this.props
 
 		return (
 			<FormControl style={{width: '100%'}}>
 				<InputLabel htmlFor="asv-season">Arbeitsstundensaison</InputLabel>
-				<Select value={selected}>/ 
+				<Select value={selected} onChange={event => onChange(event.target.value)}> 
 					
 					{seasons.map((season) => {
 						return (
 							<MenuItem
 								key={season.year}
-								onClick={onChange(season.year)}
+								value={season.year}
 							>
-								{season.label}
+								{this.getSeasonLabel(current, season.year, season.label)}
 							</MenuItem>
 						);
 					}, this)}

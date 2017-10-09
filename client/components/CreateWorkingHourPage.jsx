@@ -23,11 +23,15 @@ export default class CreateWorkingHourPage extends React.Component {
 
 		this.state = {
 			users: [],
+			seasons: [],
+			selectedSeason: 0,
+			currentSeason: 0,
 		};
 	};
 
 	componentWillMount() {
 		this.loadUsers();
+		this.loadSeasons();
 	};
 
 	loadUsers = () => {
@@ -44,8 +48,26 @@ export default class CreateWorkingHourPage extends React.Component {
 			});
 	}
 
-	handleSelectSeason = (selectedSeason) => {
-		console.log("selectedSeason" + selectedSeason);
+	loadSeasons = () => {
+		const endpoint = Config.baseurl + Config.endpoints.seasons;
+		Request.get(endpoint)
+			.set('Content-Type', 'application/json')
+			.then(success => {
+				const { current, seasons } = success.body; 
+				this.setState({
+					seasons: seasons,
+					selectedSeason: current,
+					currentSeason: current
+				});
+			}, failure => {
+				console.error("Error: getting seasons (Response: ", failure.status, ")", failure);
+			});
+	}
+
+	handleSeasonChanged = (newSelectedYear) => {
+		this.setState({
+			selectedYear: newSelectedYear
+		});
 	}
 
 	handleSelectProject = (selectedProject) => {
@@ -53,7 +75,7 @@ export default class CreateWorkingHourPage extends React.Component {
 	}
 
 	render() {
-		const { users } = this.state;
+		const { currentSeason, selectedSeason, seasons, users } = this.state;
 
 		return (
 			<Paper>
@@ -67,13 +89,13 @@ export default class CreateWorkingHourPage extends React.Component {
 
 				<Paper>
 					Step 1: Arbeitsstunden Saison auswählen + Projekt auswählen
-					<SeasonPicker seasons={[]} selected='none' onChange={this.handleSelectSeason}/>
+					<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged}/>
 					<ProjectPicker projects={[]} selected='none' onChange={this.handleSelectProject}/>
 					NEXT
 				</Paper>
 
 				<Paper>
-					Step 2: Titel, Beschreibung
+					Step 2: Titel
 					<Grid container>
 						<Grid item xs={12} sm={12}>
 							{this.renderTextField({name:'title', text:'Titel', required:true})}
@@ -90,6 +112,9 @@ export default class CreateWorkingHourPage extends React.Component {
 					NEXT
 				</Paper>
 				<Paper>
+
+					Gesammte Stunden hinzugefuegt, falls nicht: zurueck gehen und aendern
+
 					Kontrolle und Speichern
 				</Paper>
 			</Paper>
