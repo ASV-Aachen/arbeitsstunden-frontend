@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Avatar from 'material-ui/Avatar';
+import Button from 'material-ui/Button';
 import Chip from 'material-ui/Chip';
+import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle, } from 'material-ui/Dialog';
 import { FormControl } from 'material-ui/Form';
 import SearchIcon from 'material-ui-icons/Search';
 import Input, { InputLabel } from 'material-ui/Input';
@@ -66,6 +68,15 @@ export default class UserPicker extends React.PureComponent {
 		} 
 	} 
 
+	handleUpdateWorkinghourValue = (user, newValue) => {
+		var newSelectedHours = this.state.selectedHours;
+		newSelectedHours[user.id] = newValue; 
+
+		this.setState(prevState => ({
+			selectedHours: newSelectedHours 
+		}));
+	}
+
 	render() {
 		const { users } = this.props;
 		const { baseHours, searchFilter, selectedUsers, selectedHours } = this.state;
@@ -82,8 +93,8 @@ export default class UserPicker extends React.PureComponent {
 
 		return (
 			<span>
-				<BaseHourTextField onChange={this.handleBaseHoursChanged} />
-				<SelectedUsers values={selectedHours} users={selectedUsers} onDelete={this.handleRemoveUser}/>
+				<BaseHourTextField label={"Grundstunden"} onChange={this.handleBaseHoursChanged} />
+				<SelectedUsers values={selectedHours} users={selectedUsers} onDelete={this.handleRemoveUser} onUpdateWorkinghourValue={this.handleUpdateWorkinghourValue} />
 				<SearchField onChange={this.handleSearchChange} />
 				<UserList users={this.filterList(userListItems, searchFilter)} onSelect={this.handleSelectUser} />
 			</span>
@@ -93,18 +104,25 @@ export default class UserPicker extends React.PureComponent {
 
 class BaseHourTextField extends React.PureComponent {
 	static propTypes = {
+		label: PropTypes.string,
+		defaultValue: PropTypes.string,
 		onChange: PropTypes.func.isRequired
+	}
+	
+	static defaultProps = {
+		label: "",
+		defaultValue: "0.5"
 	}
 
 	render() {
-		const { onChange } = this.props; 
+		const { label, defaultValue, onChange } = this.props; 
 	
 		return (
 			<TextField
 				id="time"
-				label="Grundstunden"
+				label={label}
 				type="number"
-				defaultValue="0.5"
+				defaultValue={defaultValue}
 				onChange={onChange}
 				InputLabelProps={{
 					shrink: true,
@@ -125,11 +143,43 @@ class SelectedUsers extends React.PureComponent {
 	static propTypes = {
 		users: PropTypes.array.isRequired,
 		values: PropTypes.object.isRequired,
-		onDelete: PropTypes.func.isRequired
+		onDelete: PropTypes.func.isRequired,
+		onUpdateWorkinghourValue: PropTypes.func.isRequired
 	}
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			dialogOpen: false, 
+			selectedUser: {},
+		}
+	}
+
+	handleOnClick = (user) => {
+		this.setState({ 
+			dialogOpen: true, 
+			selectedUser: user,
+			newWorkinghourValue: this.props.values[user.id]
+		});
+	}
+
+	handleRequestCancel = () => {
+		this.setState({ 
+			dialogOpen: false, 
+		});
+	};
+
+	handleRequestSave= () => {
+		let updatedValue = this.state.newWorkinghourValue;
+		this.props.onUpdateWorkinghourValue(this.state.selectedUser, updatedValue);
+		this.setState({ 
+			dialogOpen: false, 
+		});
+	};
+
 	render() {
-		const { users, values, onDelete } = this.props
+		const { users, values, onDelete } = this.props;
+		const { dialogOpen, selectedUser } = this.state;
 
 		return(
 			<div>
@@ -139,10 +189,28 @@ class SelectedUsers extends React.PureComponent {
 							avatar={<Avatar>{values[user.id]}</Avatar>}
 							label={`${user.firstName} ${user.lastName}`} 
 							key={user.id}
+							onClick={() => this.handleOnClick(user)}
 							onRequestDelete={() => onDelete(user)} 
 						/>
 					);
 				}, this)}
+				<Dialog open={dialogOpen} onRequestClose={this.handleRequestCancel}>
+					<DialogTitle>Arbeitsstunden anpassen</DialogTitle>
+					<DialogContent>
+						<DialogContentText>
+							Arbeitsstunden für {`${selectedUser.firstName} ${selectedUser.lastName}`} anpassen.
+						</DialogContentText>
+						<BaseHourTextField defaultValue={values[selectedUser.id]} onChange={(event) => {this.setState({ newWorkinghourValue: event.target.value })}} />
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={this.handleRequestCancel} color="primary">
+							Abbrechen	
+						</Button>
+						<Button onClick={this.handleRequestSave} color="primary">
+							Speichern
+						</Button>
+					</DialogActions>
+				</Dialog>
 			</div>
 		);
 	}

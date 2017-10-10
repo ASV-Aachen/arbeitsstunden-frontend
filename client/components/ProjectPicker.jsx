@@ -18,7 +18,7 @@ export default class ProjectPicker extends React.PureComponent {
 		const { projects, selected, onChange } = this.props
 
 		return (
-			<FormControl style={{width: '100%'}}>
+			<FormControl required style={{width: '100%'}}>
 				<InputLabel htmlFor="asv-project">Projekt</InputLabel>
 				<Select value={selected} onChange={event => onChange(event.target.value)}> 
 					
