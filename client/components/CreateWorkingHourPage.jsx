@@ -64,9 +64,9 @@ export default class CreateWorkingHourPage extends React.Component {
 			});
 	}
 
-	handleSeasonChanged = (newSelectedYear) => {
+	handleSeasonChanged = (newSelectedSeason) => {
 		this.setState({
-			selectedYear: newSelectedYear
+			selectedSeason: newSelectedSeason
 		});
 	}
 
