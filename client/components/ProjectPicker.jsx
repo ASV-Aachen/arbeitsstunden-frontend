@@ -20,13 +20,13 @@ export default class ProjectPicker extends React.PureComponent {
 		return (
 			<FormControl style={{width: '100%'}}>
 				<InputLabel htmlFor="asv-project">Projekt</InputLabel>
-				<Select value={selected}>/ 
+				<Select value={selected} onChange={event => onChange(event.target.value)}> 
 					
 					{projects.map((project) => {
 						return (
 							<MenuItem
 								key={project.id}
-								onClick={onChange(project.id)}
+								value={project.id}
 							>
 								{project.name}
 							</MenuItem>

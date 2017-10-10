@@ -26,27 +26,16 @@ export default class CreateWorkingHourPage extends React.Component {
 			seasons: [],
 			selectedSeason: 0,
 			currentSeason: 0,
+			projects:[],
+			selectedProject:'none',
 		};
 	};
 
 	componentWillMount() {
-		this.loadUsers();
 		this.loadSeasons();
+		this.loadProjects();
+		this.loadUsers();
 	};
-
-	loadUsers = () => {
-		const endpoint = Config.baseurl + Config.endpoints.users;
-		Request.get(endpoint)
-			.set('Content-Type', 'application/json')
-			.then(success => {
-				const users = success.body;
-				this.setState({
-					users: users,
-				});
-			}, failure => {
-				console.error("Error: getting projects (Response: ", failure.status, ")", failure);
-			});
-	}
 
 	loadSeasons = () => {
 		const endpoint = Config.baseurl + Config.endpoints.seasons;
@@ -64,6 +53,34 @@ export default class CreateWorkingHourPage extends React.Component {
 			});
 	}
 
+	loadProjects = () => {
+		const endpoint = Config.baseurl + Config.endpoints.projects;
+		Request.get(endpoint)
+			.set('Content-Type', 'application/json')
+			.then(success => {
+				const projects = success.body; 
+				this.setState({
+					projects: projects
+				});
+			}, failure => {
+				console.error("Error: getting projects (Response: ", failure.status, ")", failure);
+			});
+	}
+
+	loadUsers = () => {
+		const endpoint = Config.baseurl + Config.endpoints.users;
+		Request.get(endpoint)
+			.set('Content-Type', 'application/json')
+			.then(success => {
+				const users = success.body;
+				this.setState({
+					users: users,
+				});
+			}, failure => {
+				console.error("Error: getting projects (Response: ", failure.status, ")", failure);
+			});
+	}
+
 	handleSeasonChanged = (newSelectedSeason) => {
 		this.setState({
 			selectedSeason: newSelectedSeason
@@ -71,11 +88,13 @@ export default class CreateWorkingHourPage extends React.Component {
 	}
 
 	handleSelectProject = (selectedProject) => {
-		console.log("selectedProject" + selectedProject);
+		this.setState({
+			selectedProject: selectedProject 
+		});
 	}
 
 	render() {
-		const { currentSeason, selectedSeason, seasons, users } = this.state;
+		const { currentSeason, selectedSeason, seasons, selectedProject, projects, users } = this.state;
 
 		return (
 			<Paper>
@@ -90,7 +109,7 @@ export default class CreateWorkingHourPage extends React.Component {
 				<Paper>
 					Step 1: Arbeitsstunden Saison auswählen + Projekt auswählen
 					<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged}/>
-					<ProjectPicker projects={[]} selected='none' onChange={this.handleSelectProject}/>
+					<ProjectPicker projects={projects} selected={selectedProject} onChange={this.handleSelectProject}/>
 					NEXT
 				</Paper>
 
