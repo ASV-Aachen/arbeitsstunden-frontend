@@ -3,12 +3,16 @@ import Request from 'superagent';
 import PropTypes from 'prop-types';
 
 import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
 import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
+import MobileStepper from 'material-ui/MobileStepper';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
+import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
 
 import ProjectPicker from './ProjectPicker.jsx';
@@ -22,6 +26,7 @@ export default class CreateWorkingHourPage extends React.Component {
 		super(props);
 
 		this.state = {
+			activeStep: 0,
 			users: [],
 			seasons: [],
 			selectedSeason: 0,
@@ -93,8 +98,66 @@ export default class CreateWorkingHourPage extends React.Component {
 		});
 	}
 
+	handleNext = () => {
+		this.setState({
+      		activeStep: this.state.activeStep + 1,
+    	});	
+	}
+
+	handleBack = () => {
+		this.setState({
+      		activeStep: this.state.activeStep - 1,
+    	});	
+	}
+
+	getStepContent = (stepIndex) => {
+		const { activeStep, currentSeason, selectedSeason, seasons, selectedProject, projects, users } = this.state;
+
+		switch (stepIndex) {
+			case 0:
+				return (
+					<Paper>
+						Step 1: Arbeitsstunden Saison auswählen + Projekt auswählen
+						<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged}/>
+						<ProjectPicker projects={projects} selected={selectedProject} onChange={this.handleSelectProject}/>
+						NEXT
+					</Paper>
+				);	
+			case 1:
+				return (
+					<Paper>
+						Step 2: Titel
+						<Grid container>
+							<Grid item xs={12} sm={12}>
+								{this.renderTextField({name:'title', text:'Titel', required:true})}
+							</Grid>
+							<Grid item xs={12} sm={12}>
+								{this.renderTextField({name:'description', text:'Beschreibung -> Multiline', required:false})}
+							</Grid>
+						</Grid>
+						NEXT
+					</Paper>
+				);
+			case 2:
+				return (
+					<Paper>
+						Step 3: Mitglieder und Stunden hinzufugen 
+						<UserPicker users={users} />
+						NEXT
+					</Paper>
+				);
+			case 3:
+				return (
+					<Paper>
+						Step 4: Zusammenfassung Gesammte Stunden hinzugefuegt, falls nicht: zurueck gehen und aendern
+						Kontrolle und Speichern
+					</Paper>
+				);
+		}
+	}
+
 	render() {
-		const { currentSeason, selectedSeason, seasons, selectedProject, projects, users } = this.state;
+		const { activeStep, currentSeason, selectedSeason, seasons, selectedProject, projects, users } = this.state;
 
 		return (
 			<Paper>
@@ -106,36 +169,29 @@ export default class CreateWorkingHourPage extends React.Component {
 					</Toolbar>	    	
 				</AppBar>
 
-				<Paper>
-					Step 1: Arbeitsstunden Saison auswählen + Projekt auswählen
-					<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged}/>
-					<ProjectPicker projects={projects} selected={selectedProject} onChange={this.handleSelectProject}/>
-					NEXT
-				</Paper>
+			<MobileStepper
+				type="progress"
+				steps={4}
+				position="static"
+				activeStep={activeStep}
+				nextButton={
+					<Button dense onClick={this.handleNext} disabled={activeStep === 3}>
+					Next
+					{<KeyboardArrowRight />}
+					</Button>
+				}
+				backButton={
+					<Button dense onClick={this.handleBack} disabled={activeStep === 0}>
+					{<KeyboardArrowLeft />}
+					Back
+					</Button>
+				}
+			/>
 
-				<Paper>
-					Step 2: Titel
-					<Grid container>
-						<Grid item xs={12} sm={12}>
-							{this.renderTextField({name:'title', text:'Titel', required:true})}
-						</Grid>
-						<Grid item xs={12} sm={12}>
-							{this.renderTextField({name:'description', text:'Beschreibung', required:false})}
-						</Grid>
-					</Grid>
-					NEXT
-				</Paper>
-				<Paper>
-					Step 3: Mitglieder und Stunden hinzufugen 
-					<UserPicker users={users} />
-					NEXT
-				</Paper>
-				<Paper>
+			{this.getStepContent(activeStep)}
 
-					Gesammte Stunden hinzugefuegt, falls nicht: zurueck gehen und aendern
 
-					Kontrolle und Speichern
-				</Paper>
+
 			</Paper>
 		);
 	};
