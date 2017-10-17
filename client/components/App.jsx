@@ -1,50 +1,61 @@
 import React from 'react';
 
-import ProjectPage from './ProjectPage.jsx'
-import CreateWorkingHourPage from './CreateWorkingHourPage.jsx'
-import CreateUserPage from './CreateUserPage.jsx'
-import UserListPage from './UserListPage.jsx'
+import LoginScreen from './LoginScreen.jsx'
+import Main from './Main.jsx'
+import AuthRoute from './AuthRoute.jsx'
 
-import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid'
+import Paper from 'material-ui/Paper';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles'
-import { grey, amber, red} from 'material-ui/colors';
+import { purple, green, grey, amber, red} from 'material-ui/colors';
+import { Switch } from 'react-router-dom'
 
 const muiTheme = createMuiTheme();
 
-const styles = theme => ({
+const theme = createMuiTheme({
 	'@global': {
-		html: {
-			background: theme.palette.background.default,
-			WebkitFontSmoothing: 'antialiased', // Antialiasing.
-			MozOsxFontSmoothing: 'grayscale', // Antialiasing.
-		},
 		body: {
-			margin: 10,
+			backgroundColor: '#a5a3a4',
+			margin: 0,
+			padding: 0,
+			height: '100%',
+			minHeight: '100%',
+			position: 'relative',
+			overflowY: 'auto',
+			overflowX: 'hidden',
 		},
+		html: {
+			margin: 0,
+			padding: 0,
+			height: '100%',
+			minHeight: '100%',
+			position: 'relative',
+			overflowY: 'auto',	
+		}
 	},
+	palette: {
+		type: 'light',
+		primary: purple,
+		secondary: green,
+	}
 });
 
-
 let AppWrapper = props => props.children;
-AppWrapper = withStyles(styles)(AppWrapper);
+AppWrapper = withStyles(theme)(AppWrapper);
 
 export default class App extends React.Component {
+
+
 	render() {
 		return (
-			<MuiThemeProvider theme={muiTheme}>
+			<MuiThemeProvider theme={theme}>
 				<AppWrapper>
-					 <Grid container spacing={24}>
-					    <Grid item xs={12} sm={6}>
-							<ProjectPage />
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<CreateWorkingHourPage />
-						</Grid>
-						<Grid item xs={12} sm={12}>
-							<UserListPage />
-						</Grid>
-					  </Grid>
+					<div>
+						<Switch>
+							<AuthRoute exact path="/" component={ Main } />
+							<AuthRoute exact path="/login" component={ LoginScreen } />
+						</Switch>
+					</div>
 				</AppWrapper>
 			</MuiThemeProvider>
 		);
