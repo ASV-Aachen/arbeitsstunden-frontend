@@ -17,7 +17,7 @@ import { FormControl, FormHelperText } from 'material-ui/Form'
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { CircularProgress } from 'material-ui/Progress';
 
-export default class CreateProjectPage extends React.Component {
+export default class CreateProjectDialog extends React.Component {
 	static propTypes = {
 		onRequestClose: PropTypes.func.isRequired,
 		onRequestCloseCreated:  PropTypes.func.isRequired,

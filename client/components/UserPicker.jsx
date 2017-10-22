@@ -94,8 +94,14 @@ export default class UserPicker extends React.PureComponent {
 		return (
 			<span>
 				<BaseHourTextField label={"Grundstunden"} onChange={this.handleBaseHoursChanged} />
+				<br />
+				<br />
 				<SelectedUsers values={selectedHours} users={selectedUsers} onDelete={this.handleRemoveUser} onUpdateWorkinghourValue={this.handleUpdateWorkinghourValue} />
+				<br />
+				<br />
+				<br />
 				<SearchField onChange={this.handleSearchChange} />
+				<br />
 				<UserList users={this.filterList(userListItems, searchFilter)} onSelect={this.handleSelectUser} />
 			</span>
 		);
@@ -120,6 +126,7 @@ class BaseHourTextField extends React.PureComponent {
 		return (
 			<TextField
 				id="time"
+				style={{width:'100%'}}
 				label={label}
 				type="number"
 				defaultValue={defaultValue}
@@ -191,6 +198,7 @@ class SelectedUsers extends React.PureComponent {
 							key={user.id}
 							onClick={() => this.handleOnClick(user)}
 							onRequestDelete={() => onDelete(user)} 
+							style={{float:'left'}}
 						/>
 					);
 				}, this)}
@@ -225,12 +233,13 @@ class SearchField extends React.PureComponent {
 		const { onChange } = this.props
 
 		return (
-			<FormControl>
-				<span>
-					<SearchIcon />
-					<Input placeholder='Suche' onChange={onChange} />
-				</span>
-			</FormControl>
+			<div style={{position: 'relative', display: 'inline-block', width:'100%'}}>
+				<SearchIcon style={{position: 'absolute', right: 0, top: 15, width: 20, height: 20}}/>
+				<FormControl style={{width:'100%'}}>
+					<InputLabel htmlFor='search'>Suche</InputLabel>
+					<Input placeholder='Suche' id='search' onChange={onChange} />
+				</FormControl>
+			</div>
 		);
 	}
 }

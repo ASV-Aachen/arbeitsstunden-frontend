@@ -116,42 +116,53 @@ export default class CreateWorkingHourPage extends React.Component {
 		switch (stepIndex) {
 			case 0:
 				return (
-					<Paper>
-						Step 1: Arbeitsstunden Saison auswählen + Projekt auswählen
-						<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged}/>
-						<ProjectPicker projects={projects} selected={selectedProject} onChange={this.handleSelectProject}/>
-						NEXT
-					</Paper>
+						<div style={{padding:24}}>
+							<Typography type="title">
+								Arbeitsstunden Saison & Projekt auswählen
+							</Typography>
+							<br />
+							<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged}/>
+							<br />
+							<br />
+							<ProjectPicker projects={projects} selected={selectedProject} onChange={this.handleSelectProject}/>
+						</div>
 				);	
 			case 1:
 				return (
-					<Paper>
-						Step 2: Titel
+						<div style={{padding:24}}>
+						<Typography type="title">
+							Titel und Beschreibung	
+						</Typography>
+						<br />
 						<Grid container>
 							<Grid item xs={12} sm={12}>
-								{this.renderTextField({name:'title', text:'Titel', required:true})}
+								{this.renderTextField({name:'title', text:'Titel', required:true, multiline: false})}
 							</Grid>
 							<Grid item xs={12} sm={12}>
-								{this.renderTextField({name:'description', text:'Beschreibung -> Multiline', required:false})}
+								{this.renderTextField({name:'description', text:'Beschreibung', required:false, multiline: true})}
 							</Grid>
 						</Grid>
-						NEXT
-					</Paper>
+						</div>
 				);
 			case 2:
 				return (
-					<Paper>
-						Step 3: Mitglieder und Stunden hinzufugen 
+						<div style={{padding:24}}>
+						<Typography type="title">
+							Mitglieder und Stunden hinzufügen 
+						</Typography>
+						<br />
 						<UserPicker users={users} />
-						NEXT
-					</Paper>
+						</div>
 				);
 			case 3:
 				return (
-					<Paper>
-						Step 4: Zusammenfassung Gesammte Stunden hinzugefuegt, falls nicht: zurueck gehen und aendern
-						Kontrolle und Speichern
-					</Paper>
+						<div style={{padding:24}}>
+						<Typography type="title">
+							Zusammenfassung 
+						</Typography>
+						<br />
+						Speichern
+						</div>
 				);
 		}
 	}
@@ -190,19 +201,16 @@ export default class CreateWorkingHourPage extends React.Component {
 
 			{this.getStepContent(activeStep)}
 
-
-
 			</Paper>
 		);
 	};
 
-	renderTextField = ({ name, text, required }) => {
+	renderTextField = ({ name, text, required, multiline }) => {
 		return (
 			<FormControl required={required} style={{width: '100%'}}>
 				<InputLabel htmlFor={name}>{text}</InputLabel>
-				<Input id={name} />
+				<Input id={name} multiline={multiline}/>
 			</FormControl>
 		);
 	};
-
 }

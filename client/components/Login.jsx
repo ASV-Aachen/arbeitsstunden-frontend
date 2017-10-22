@@ -10,6 +10,10 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
 export default class Login extends React.Component {
+	static propTypes = {
+		onLogin: PropTypes.func.isRequired,
+	};
+
 	constructor(props){
 		super(props);
 		this.state={
@@ -19,7 +23,8 @@ export default class Login extends React.Component {
 	}
 
 	handleClick = (event) => {
-		console.log("login ", event);
+		const { email, password } = this.state;
+		this.props.onLogin(email, password);
 	}
 
 	render() {
@@ -35,7 +40,7 @@ export default class Login extends React.Component {
 				</AppBar>
 				<div style={{padding:24}}>
 					<FormControl 
-					onChange = {(event,newValue) => this.setState({email:newValue})}
+					onChange = {(event) => this.setState({email:event.target.value})}
 					style={{width: '100%'}}>
 						<InputLabel htmlFor='email'>Email</InputLabel>
 						<Input id='email' />
@@ -43,7 +48,7 @@ export default class Login extends React.Component {
 					<br />
 					<br />
 					<FormControl 
-					onChange = {(event,newValue) => this.setState({password:newValue})}
+					onChange = {(event) => this.setState({password:event.target.value})}
 					style={{width: '100%'}}>
 						<InputLabel htmlFor='password'>Passwort</InputLabel>
 						<Input id='password' />
