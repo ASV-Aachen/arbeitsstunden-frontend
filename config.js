@@ -4,7 +4,8 @@ export const Config = {
 	endpoints:  {
 		users: '/api/users',
 		seasons: '/api/seasons',
-		projects: '/api/projects'
+		projects: '/api/projects/',
+		activeProjects: '/api/projects/active'
 	}
 }
 

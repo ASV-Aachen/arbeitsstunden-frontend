@@ -85,7 +85,7 @@ export default class ProjectTable extends React.Component {
 			);
 		} else {
 			return data.sort(
-				(a, b) => (order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy])
+				(a, b) => (order === 'desc' ? 0 - (a[orderBy] > b[orderBy] ? 1 : -1) : 0 - (b[orderBy] > a[orderBy] ? 1 : -1 ))
 			);
 		}
 	}

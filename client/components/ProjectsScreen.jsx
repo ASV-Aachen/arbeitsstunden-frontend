@@ -10,8 +10,9 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 
+import { Config } from '../../config.js';
 import ProjectTable from './ProjectTable.jsx'
-import CreateProjectPage from './CreateProjectPage.jsx'
+import CreateProjectDialog from './CreateProjectDialog.jsx'
 
 export default class ProjectPage extends React.Component {
 	constructor(props) {
@@ -23,7 +24,7 @@ export default class ProjectPage extends React.Component {
 			snackbarOpen: false,
 			createDialogOpen: false,
 			currentProjects: null,
-			currentYear: '',
+			selectedYear: 0,
 			availableSeasons: [],
 			seasonLabels: null
 		};
@@ -34,7 +35,7 @@ export default class ProjectPage extends React.Component {
     };
 
 	loadInitialProjects = () => {
-        const endpoint = 'http://localhost:8081/api/projects/current';
+		const endpoint = Config.baseurl + Config.endpoints.activeProjects;
 
         request.get(endpoint)
             .set('Content-Type', 'application/json')
@@ -49,7 +50,7 @@ export default class ProjectPage extends React.Component {
 
 				this.setState({
 					currentProjects: body.projects,
-					currentYear: body.currentYear,
+					selectedYear: body.activeYear,
 					availableSeasons: body.seasons.sort(function (a,b) {return b.year - a.year}),
 					seasonLabels: seasonLabels
 				});
@@ -60,8 +61,7 @@ export default class ProjectPage extends React.Component {
      }
 
 	loadProjects = (year) => {
-        const endpoint = 'http://localhost:8081/api/projects/' + year;
-
+		const endpoint = Config.baseurl + Config.endpoints.projects + year;
         request.get(endpoint)
             .set('Content-Type', 'application/json')
             .then(success => {
@@ -96,7 +96,7 @@ export default class ProjectPage extends React.Component {
 
 	handleMenuItemClick = (event, selectedYear) => {
 		this.setState({
-			currentYear: selectedYear,
+			selectedYear: selectedYear,
 			currentProjects: null,
 			open: false,
 		});
@@ -116,13 +116,13 @@ export default class ProjectPage extends React.Component {
 	};
 
 	render() {
-		const { snackbarCreateOpen, createDialogOpen, anchorEl, open, snackbarOpen, currentProjects, currentYear, availableSeasons, seasonLabels } = this.state;
+		const { snackbarCreateOpen, createDialogOpen, anchorEl, open, snackbarOpen, currentProjects, selectedYear, availableSeasons, seasonLabels } = this.state;
 
 		return (
 			<Paper style={{position:'relative'}}>
-				<CreateProjectPage
+				<CreateProjectDialog
 					open={createDialogOpen}
-					currentSeason={currentYear}
+					currentSeason={selectedYear}
 					availableSeasons={availableSeasons}
 					onRequestClose={this.handleRequestCreateDialogClose}
 					onRequestCloseCreated={this.handleRequestProjectCreated}
@@ -133,7 +133,7 @@ export default class ProjectPage extends React.Component {
 
 					{availableSeasons.length > 0 &&
 
-							<span>Projekte für Saison {seasonLabels[currentYear]}</span>
+							<span>Projekte für Saison {seasonLabels[selectedYear]}</span>
 					}
 						</Typography>
 
@@ -154,7 +154,7 @@ export default class ProjectPage extends React.Component {
 								return (
 									<MenuItem
 										key={availableYear.year}
-										selected={availableYear.year==currentYear}
+										selected={availableYear.year==selectedYear}
 										onClick={event => this.handleMenuItemClick(event, availableYear.year)}
 									>
 										{availableYear.label}
@@ -169,6 +169,7 @@ export default class ProjectPage extends React.Component {
 				</Button>
 				Klick auf Zeile oeffnet detail Seite vom Projekt
 				Detailseite Projekt erstellen
+				Von Menu auf Select umsteigen!
 
 			{currentProjects != null &&
 				<ProjectTable projects={currentProjects} />

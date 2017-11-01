@@ -22,7 +22,7 @@ export default class CreateProjectDialog extends React.Component {
 		onRequestClose: PropTypes.func.isRequired,
 		onRequestCloseCreated:  PropTypes.func.isRequired,
 		availableSeasons: PropTypes.array.isRequired,
-		currentSeason: PropTypes.string.isRequired,
+		currentSeason: PropTypes.number.isRequired,
 	};
 
 	constructor(props) {

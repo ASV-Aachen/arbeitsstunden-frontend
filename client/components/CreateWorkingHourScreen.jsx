@@ -43,7 +43,7 @@ export default class CreateWorkingHourPage extends React.Component {
 	};
 
 	loadSeasons = () => {
-		const endpoint = Config.baseurl + Config.endpoints.seasons;
+		const endpoint = Config.baseurl + Config.endpoints.activeProjects;
 		Request.get(endpoint)
 			.set('Content-Type', 'application/json')
 			.then(success => {
@@ -59,7 +59,7 @@ export default class CreateWorkingHourPage extends React.Component {
 	}
 
 	loadProjects = () => {
-		const endpoint = Config.baseurl + Config.endpoints.projects;
+		const endpoint = Config.baseurl + Config.endpoints.activeProjects;
 		Request.get(endpoint)
 			.set('Content-Type', 'application/json')
 			.then(success => {
