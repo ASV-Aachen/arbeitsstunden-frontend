@@ -9,7 +9,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
 import CreateWorkingHourScreen from './CreateWorkingHourScreen.jsx';
-import ProjectsScreen from './ProjectsScreen.jsx';
+import MemberScreen from './MemberScreen.jsx';
 
 export default class HomeScreen extends React.Component {
 
@@ -29,7 +29,7 @@ export default class HomeScreen extends React.Component {
 					
 					<Grid container style={{margin:12, marginTop:0}}>
 						<Grid item xs={12} sm={12}>
-							<ProjectsScreen />
+							<MemberScreen />
 						</Grid>
 					</Grid>
 
@@ -37,7 +37,7 @@ export default class HomeScreen extends React.Component {
 
 
 
-				   <div>
+				   <div style={{marginTop:200}}>
       <Grid container spacing={24}>
         <Grid item xs={12}>
           <Paper>xs=12</Paper>
@@ -59,8 +59,8 @@ export default class HomeScreen extends React.Component {
         </Grid>
         <Grid item xs={6} sm={3}>
           <Paper>xs=6 sm=3</Paper>
-        </Grid>
-      </Grid>
+        </Grid> 
+      </Grid> 
     </div>
 			</div>
 		);
