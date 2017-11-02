@@ -100,6 +100,14 @@ export default class WorkingHourItemTable extends React.Component {
 		return '' + (d <= 9 ? '0' + d : d) + '.' + (m<=9 ? '0' + m : m) + '.' + y ;
 	}
 
+	truncate = (string, n, useWordBoundary) => {
+		if (string.length <= n) { return string; }
+		var subString = string.substr(0, n-1);
+		return (useWordBoundary 
+		   ? subString.substr(0, subString.lastIndexOf(' ')) 
+		   : subString) + "...";
+	}
+
 	render() {
 		const { sortedData, order, orderBy } = this.state;
 
@@ -116,7 +124,7 @@ export default class WorkingHourItemTable extends React.Component {
 							<TableRow key={n.id}>
 								<TableCell>{this.formatDate(n.date)}</TableCell>
 								<TableCell>{n.project}</TableCell>
-								<TableCell>{n.title}</TableCell>
+								<TableCell>{this.truncate(n.title, 50, true)}</TableCell>
 								<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
 							</TableRow>
 						);
