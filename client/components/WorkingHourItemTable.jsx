@@ -92,6 +92,14 @@ export default class WorkingHourItemTable extends React.Component {
 		}
 	}
 
+	formatDate = (dateString) => {
+		var date = new Date(dateString);
+		var d = date.getDate();
+		var m = date.getMonth() + 1;
+		var y = date.getFullYear();
+		return '' + (d <= 9 ? '0' + d : d) + '.' + (m<=9 ? '0' + m : m) + '.' + y ;
+	}
+
 	render() {
 		const { sortedData, order, orderBy } = this.state;
 
@@ -106,7 +114,7 @@ export default class WorkingHourItemTable extends React.Component {
 					{sortedData.map(n => {
 						return (
 							<TableRow key={n.id}>
-								<TableCell>{n.date}</TableCell>
+								<TableCell>{this.formatDate(n.date)}</TableCell>
 								<TableCell>{n.project}</TableCell>
 								<TableCell>{n.title}</TableCell>
 								<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
