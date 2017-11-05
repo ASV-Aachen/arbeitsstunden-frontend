@@ -8,6 +8,7 @@ export const Config = {
 		activeProjects: '/api/projects/active',
 		memberWorkinghours: '/api/members/',
 		activeMemberWorkinghours: '/api/members/active',
+		memberOverview: '/api/members/overview',
 	}
 }
 

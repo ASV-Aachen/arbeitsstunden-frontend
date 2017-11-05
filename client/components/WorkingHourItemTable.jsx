@@ -56,8 +56,8 @@ export default class WorkingHourItemTable extends React.Component {
 
 		this.state = {
 			order: 'asc',
-			orderBy: 'name',
-			sortedData: this.sortBy(props.workinghours, 'asc', 'name')
+			orderBy: 'date',
+			sortedData: this.sortBy(props.workinghours, 'asc', 'date')
 		};
 	};
 

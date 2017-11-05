@@ -22,6 +22,9 @@ export default class MemberDetails extends React.Component {
 						</Typography>
 					</Toolbar>
 				</AppBar>
+				Ralf Bettermann<br />
+				ralf.bettermann@rwth-aachen.de<br />
+				Status: aktiv
 			</Paper>
 		);
 	}

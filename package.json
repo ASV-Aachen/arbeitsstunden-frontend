@@ -21,13 +21,15 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
+    "chart.js": "^2.7.1",
     "material-ui": "^1.0.0-beta.17",
     "material-ui-icons": "^1.0.0-beta.15",
     "react": "^15.6.1",
+    "react-chartjs-2": "^2.6.4",
     "react-dom": "^15.6.1",
-    "universal-cookie": "^2.1.0",
-    "react-tap-event-plugin": "^2.0.1",
     "react-router-dom": "^4.2.2",
-    "superagent": "^3.6.0"
+    "react-tap-event-plugin": "^2.0.1",
+    "superagent": "^3.6.0",
+    "universal-cookie": "^2.1.0"
   }
 }
