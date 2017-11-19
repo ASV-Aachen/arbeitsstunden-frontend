@@ -59,7 +59,7 @@ export default class App extends React.Component {
 				<AppWrapper>
 					<div>
 						<Switch>
-							<AuthRoute exact path="/" component={ HomeScreen } />
+							<AuthRoute path="/" component={ HomeScreen } />
 							<AuthRoute exact path="/login" component={ LoginScreen } />
 						</Switch>
 					</div>

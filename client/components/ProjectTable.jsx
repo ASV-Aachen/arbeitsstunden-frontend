@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
 import Toolbar from 'material-ui/Toolbar';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
 
@@ -47,6 +49,7 @@ class EnhancedTableHead extends React.Component {
 export default class ProjectTable extends React.Component {
 	static propTypes = {
 		projects: PropTypes.array.isRequired,
+		//season: PropTypes.number.isRequired,
 	};
 
 	constructor(props) {
@@ -55,13 +58,15 @@ export default class ProjectTable extends React.Component {
 		this.state = {
 			order: 'asc',
 			orderBy: 'name',
-			sortedData: this.sortBy(props.projects, 'asc', 'name')
+			sortedData: this.sortBy(props.projects, 'asc', 'name'),
+			season:props.season,
 		};
 	};
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			sortedData: this.sortBy(props.projects, this.state.order, this.state.orderBy)
+			sortedData: this.sortBy(props.projects, this.state.order, this.state.orderBy),
+			season: props.season,
 		});
 	}
 
@@ -91,7 +96,7 @@ export default class ProjectTable extends React.Component {
 	}
 
 	render() {
-		const { sortedData, order, orderBy } = this.state;
+		const { sortedData, order, orderBy, season } = this.state;
 
 		return (
 			<Table>
@@ -103,10 +108,15 @@ export default class ProjectTable extends React.Component {
 				<TableBody>
 					{sortedData.map(n => {
 						return (
-							<TableRow key={n.id}>
-								<TableCell>{n.name}</TableCell>
-								<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
-							</TableRow>
+									<TableRow key={n.id}>
+										<TableCell>{n.name}</TableCell>
+										<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
+										<TableCell>
+											<Link to={"/project/"+n.id+"/"+season}>
+												details
+											</Link>
+										</TableCell>
+									</TableRow>
 						);
 					})}
 					{sortedData.length == 0 &&

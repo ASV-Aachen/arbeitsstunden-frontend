@@ -14,7 +14,7 @@ import { Config } from '../../config.js';
 import ProjectTable from './ProjectTable.jsx'
 import CreateProjectDialog from './CreateProjectDialog.jsx'
 
-export default class ProjectPage extends React.Component {
+export default class ProjectsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -167,12 +167,11 @@ export default class ProjectPage extends React.Component {
 				<Button fab color="accent" aria-label="add" style={{position:'absolute',right:0}} onClick={this.handleClickAdd}>
 					<AddIcon />
 				</Button>
-				Klick auf Zeile oeffnet detail Seite vom Projekt
 				Detailseite Projekt erstellen
 				Von Menu auf Select umsteigen!
 
 			{currentProjects != null &&
-				<ProjectTable projects={currentProjects} />
+				<ProjectTable projects={currentProjects} season={selectedYear} />
 			}
 
 					 <Snackbar
