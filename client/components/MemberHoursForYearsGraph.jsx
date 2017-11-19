@@ -89,7 +89,7 @@ export default class MemberHoursForYearsGraph extends React.Component {
 		}
 
 		return (
-			<Paper> 
+			<Paper style={{height:300}}> 
 				<AppBar position='static'>
 					<Toolbar>
 						<Typography type="title" color="inherit" style={{flex:'1'}}>

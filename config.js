@@ -9,6 +9,7 @@ export const Config = {
 		memberWorkinghours: '/api/members/',
 		activeMemberWorkinghours: '/api/members/active',
 		memberOverview: '/api/members/overview',
+		memberDetails: '/api/members/detail',
 	}
 }
 
