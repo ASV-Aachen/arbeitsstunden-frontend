@@ -6,18 +6,18 @@ import Paper from 'material-ui/Paper';
 export default class ProjectPage extends React.Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-		};
 	};
 
 	componentWillMount() {
     };
 
 	render() {
+		const { projectId, season } = this.props.match.params;
+
 		return (
 			<Paper style={{position:'relative'}}>
-				done
+				{projectId} <br />
+				{season}
 			</Paper>
 		);
 	}

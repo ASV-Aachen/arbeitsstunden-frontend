@@ -49,7 +49,7 @@ class EnhancedTableHead extends React.Component {
 export default class ProjectTable extends React.Component {
 	static propTypes = {
 		projects: PropTypes.array.isRequired,
-		//season: PropTypes.number.isRequired,
+		season: PropTypes.number.isRequired,
 	};
 
 	constructor(props) {
