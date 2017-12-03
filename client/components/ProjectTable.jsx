@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import Toolbar from 'material-ui/Toolbar';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
 
+import MoreHoriz from 'material-ui-icons/MoreHoriz';
+
 const columnData = [
 	{ id: 'name', label: 'Name' },
 	{ id: 'duration', label: 'Dauer (h)' },
@@ -40,7 +42,10 @@ class EnhancedTableHead extends React.Component {
 							</TableCell>
 						);
 					}, this)}
+					<TableCell>
+					</TableCell>
 				</TableRow>
+												
 			</TableHead>
 		);
 	}
@@ -113,7 +118,7 @@ export default class ProjectTable extends React.Component {
 										<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
 										<TableCell>
 											<Link to={"/project/"+n.id+"/"+season}>
-												details
+							<MoreHoriz />
 											</Link>
 										</TableCell>
 									</TableRow>

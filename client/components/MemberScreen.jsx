@@ -2,8 +2,6 @@ import React from 'react';
 import request from 'superagent';
 
 import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
-
 
 import { Config } from '../../config.js';
 import MemberDetails from './MemberDetails.jsx'

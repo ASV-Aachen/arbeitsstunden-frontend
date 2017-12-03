@@ -6,6 +6,7 @@ export const Config = {
 		seasons: '/api/seasons',
 		projects: '/api/projects/',
 		projectDetails: '/api/projects/details',
+		projectYears: '/api/projects/years',
 		activeProjects: '/api/projects/active',
 		memberWorkinghours: '/api/members/',
 		activeMemberWorkinghours: '/api/members/active',

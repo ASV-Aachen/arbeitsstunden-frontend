@@ -10,6 +10,7 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 
+
 import { Config } from '../../config.js';
 import ProjectTable from './ProjectTable.jsx'
 import CreateProjectDialog from './CreateProjectDialog.jsx'
@@ -167,7 +168,6 @@ export default class ProjectsScreen extends React.Component {
 				<Button fab color="accent" aria-label="add" style={{position:'absolute',right:0}} onClick={this.handleClickAdd}>
 					<AddIcon />
 				</Button>
-				Detailseite Projekt erstellen
 				Von Menu auf Select umsteigen!
 
 			{currentProjects != null &&
