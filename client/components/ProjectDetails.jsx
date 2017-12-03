@@ -16,6 +16,7 @@ export default class ProjectDetails extends React.Component {
 
 		this.state = {
 			currentItems: [],
+			overallDuration: 0,
 		}
 
 	};
@@ -33,8 +34,10 @@ export default class ProjectDetails extends React.Component {
             .then(success => {
 				const body = success.body;
 
+				const overallDuration = body.reduce( function (cnt, o) {return cnt + o.duration},0); 
 				this.setState({
 					currentItems: body,
+					overallDuration: overallDuration,
 				});
             }, failure => {
                 console.error("Error: getting project details (Response: ", failure.status, ")", failure);
@@ -43,14 +46,15 @@ export default class ProjectDetails extends React.Component {
 
 	render() {
 
-		const { currentItems } = this.state;
+		const { currentItems, overallDuration } = this.state;
 		
 		return (
 			<Paper>
 				<AppBar position='static'>
 					<Toolbar>
 						<Typography type="title" color="inherit" style={{flex:'1'}}>
-							<span>Details</span>
+							<span>Details (Gesamtstunden: {Math.ceil(overallDuration/30)/2})</span>
+
 						</Typography>
 					</Toolbar>
 				</AppBar>

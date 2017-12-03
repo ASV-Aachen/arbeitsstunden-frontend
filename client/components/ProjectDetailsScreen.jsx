@@ -20,7 +20,7 @@ export default class ProjectPage extends React.Component {
 		return (
 			<Grid container spacing={24}>
 				<Grid item xs={12} sm={6}>
-					<ProjectSummary />
+					<ProjectSummary projectId={projectId} season={season} />
 				</Grid>
 				<Grid item xs={12} sm={6}>
 					<ProjectForYearsGraph projectId={projectId} selectedSeason={season}/>
