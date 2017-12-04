@@ -13,6 +13,7 @@ export const Config = {
 		activeMemberWorkinghours: '/api/members/active',
 		memberOverview: '/api/members/overview',
 		memberDetails: '/api/members/detail',
+		membersList: '/api/members/list',
 	}
 }
 
