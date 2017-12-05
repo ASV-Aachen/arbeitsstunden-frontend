@@ -14,6 +14,8 @@ export const Config = {
 		memberOverview: '/api/members/overview',
 		memberDetails: '/api/members/detail',
 		membersList: '/api/members/list',
+		membersGraph: '/api/members/distribution',
+		membersSummary: '/api/members/summary',
 	}
 }
 
