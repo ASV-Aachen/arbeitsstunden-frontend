@@ -19,7 +19,7 @@ const columnData = [
 	{ id: 'lastName', label: 'Nachname' },
 	{ id: 'status', label: 'Status' },
 	{ id: 'workedMinutes', label: 'Stunden' },
-	{ id: 'sailing', label: 'Segeln?' },
+	{ id: 'todoMinutes', label: 'Segeln?' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -160,7 +160,7 @@ export default class MembersTable extends React.Component {
 					})}
 					{sortedData.length == 0 &&
 							<TableRow>
-								<TableCell style={{textAlign:'center'}} colSpan={3}>Keine Projekte gefunden</TableCell>
+								<TableCell style={{textAlign:'center'}} colSpan={5}>Keine Mitglieder mit Arbeitstunden gefunden</TableCell>
 							</TableRow>
 					}
 				</TableBody>
