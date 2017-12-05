@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom'
 
+import Cookies from 'universal-cookie';
 import AuthRoute from './AuthRoute.jsx'
 
 import Grid from 'material-ui/Grid';
@@ -9,8 +10,7 @@ import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-
-import CreateWorkingHourScreen from './CreateWorkingHourScreen.jsx';
+import Button from 'material-ui/Button';
 
 import MemberScreen from './member/MemberScreen.jsx';
 import MembersScreen from './members/MembersScreen.jsx';
@@ -18,6 +18,11 @@ import ProjectsScreen from './projects/ProjectsScreen.jsx';
 import ProjectDetailsScreen from './project/ProjectDetailsScreen.jsx';
 
 export default class HomeScreen extends React.Component {
+
+	logout = () => {
+		const cookies = new Cookies();
+		cookies.remove('token');
+	}
 
 	render() {
 		return (
@@ -28,6 +33,9 @@ export default class HomeScreen extends React.Component {
 							<Toolbar>
 								<Typography type='title' color='inherit' style={{flex:'1'}}>
 									<span>Hallo Ralf</span>
+									<Button raised onClick={this.logout}>
+										Logout
+									</Button>
 								</Typography>
 							</Toolbar>
 						</AppBar>

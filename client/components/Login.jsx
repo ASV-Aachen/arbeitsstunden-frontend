@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AppBar from 'material-ui/AppBar';
-import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form'
 import Button from 'material-ui/Button';
+import { FormControl, FormHelperText } from 'material-ui/Form'
+import Input, { InputLabel } from 'material-ui/Input';
+import { LinearProgress } from 'material-ui/Progress';
 import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -12,6 +13,7 @@ import Typography from 'material-ui/Typography';
 export default class Login extends React.Component {
 	static propTypes = {
 		onLogin: PropTypes.func.isRequired,
+		loading: PropTypes.bool.isRequired,
 	};
 
 	constructor(props){
@@ -28,6 +30,8 @@ export default class Login extends React.Component {
 	}
 
 	render() {
+		const { loading } = this.props;
+
 		return (
 			<div>
 				<AppBar position='static'>
@@ -37,6 +41,7 @@ export default class Login extends React.Component {
 						</Typography>
 
 					</Toolbar>
+					{loading && <LinearProgress /> }
 				</AppBar>
 				<div style={{padding:24}}>
 					<FormControl 
@@ -51,7 +56,7 @@ export default class Login extends React.Component {
 					onChange = {(event) => this.setState({password:event.target.value})}
 					style={{width: '100%'}}>
 						<InputLabel htmlFor='password'>Passwort</InputLabel>
-						<Input id='password' />
+						<Input type='password' id='password' />
 					</FormControl>
 					<br />
 					<br />
@@ -59,7 +64,7 @@ export default class Login extends React.Component {
 						raised
 						style={{marginLeft:'auto', marginRight:'auto', display:'block'}}
 						onClick={(event) => this.handleClick(event)} >
-						Einloggen	
+						Anmelden	
 					</Button>
 				</div>
 			</div>
