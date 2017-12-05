@@ -3,12 +3,12 @@ import request from 'superagent';
 
 import Grid from 'material-ui/Grid';
 
-import { Config } from '../../config.js';
+import { Config } from '../../../config.js';
 import MemberDetails from './MemberDetails.jsx'
 import MemberHoursForYearsGraph from './MemberHoursForYearsGraph.jsx'
 import MemberWorkinghours from './MemberWorkinghours.jsx'
 
-export default class ProjectPage extends React.Component {
+export default class MemberScreen extends React.Component {
 	constructor(props) {
 		super(props);
 	};

@@ -5,7 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
-import { Config } from '../../config.js';
+import { Config } from '../../../config.js';
 
 export default class MemberDetails extends React.Component {
 	constructor(props) {

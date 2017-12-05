@@ -12,7 +12,7 @@ import Typography from 'material-ui/Typography';
 
 import CreateWorkingHourScreen from './CreateWorkingHourScreen.jsx';
 
-import MemberScreen from './MemberScreen.jsx';
+import MemberScreen from './member/MemberScreen.jsx';
 import MembersScreen from './MembersScreen.jsx';
 import ProjectsScreen from './ProjectsScreen.jsx';
 import ProjectDetailsScreen from './ProjectDetailsScreen.jsx';
