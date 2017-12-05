@@ -41,6 +41,8 @@ export default class MemberWorkinghours extends React.Component {
 				}, {});
 
 				this.setState({
+					neededHours: Math.ceil(body.neededMinutes/30)/2,
+					workedHours: Math.ceil(body.workedMinutes/30)/2,
 					currentWorkinghours: body.workinghours,
 					selectedSeason: body.activeYear,
 					currentSeason: body.activeYear,
@@ -57,8 +59,12 @@ export default class MemberWorkinghours extends React.Component {
         request.get(endpoint)
             .set('Content-Type', 'application/json')
             .then(success => {
-				const workinghours = success.body;
+				const body = success.body;
+
+				const workinghours = body.workinghourItems;
 				this.setState({
+					neededHours: Math.ceil(body.neededMinutes/30)/2,
+					workedHours: Math.ceil(body.workedMinutes/30)/2,
 					currentWorkinghours: workinghours,
 				});
             }, failure => {
@@ -74,14 +80,14 @@ export default class MemberWorkinghours extends React.Component {
 	}
 
 	render() {
-		const { currentSeason, selectedSeason, seasons, currentWorkinghours } = this.state;
+		const { currentSeason, selectedSeason, seasons, currentWorkinghours, neededHours, workedHours } = this.state;
 
 		return (
 			<Paper> 
 				<AppBar position='static'>
 					<Toolbar>
 						<Typography type="title" color="inherit" style={{flex:'1'}}>
-							<span>Arbeitsstunden</span>
+							<span>Arbeitsstunden { workedHours } von { neededHours } </span>
 						</Typography>
 
 						<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged} />
