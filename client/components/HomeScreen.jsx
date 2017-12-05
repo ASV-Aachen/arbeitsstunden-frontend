@@ -14,8 +14,8 @@ import CreateWorkingHourScreen from './CreateWorkingHourScreen.jsx';
 
 import MemberScreen from './member/MemberScreen.jsx';
 import MembersScreen from './members/MembersScreen.jsx';
-import ProjectsScreen from './ProjectsScreen.jsx';
-import ProjectDetailsScreen from './ProjectDetailsScreen.jsx';
+import ProjectsScreen from './projects/ProjectsScreen.jsx';
+import ProjectDetailsScreen from './project/ProjectDetailsScreen.jsx';
 
 export default class HomeScreen extends React.Component {
 

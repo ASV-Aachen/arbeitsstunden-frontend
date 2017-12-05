@@ -7,7 +7,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
 import {Line} from 'react-chartjs-2';
-import { Config } from '../../config.js';
+import { Config } from '../../../config.js';
 
 
 export default class ProjectForYearsGraph extends React.Component {

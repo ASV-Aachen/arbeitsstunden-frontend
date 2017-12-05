@@ -3,7 +3,7 @@ import request from 'superagent';
 
 import Grid from 'material-ui/Grid';
 
-import { Config } from '../../config.js';
+import { Config } from '../../../config.js'
 
 import ProjectSummary from './ProjectSummary.jsx'
 import ProjectForYearsGraph from './ProjectForYearsGraph.jsx'

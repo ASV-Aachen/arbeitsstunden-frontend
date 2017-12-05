@@ -11,7 +11,7 @@ import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 
 
-import { Config } from '../../config.js';
+import { Config } from '../../../config.js';
 import ProjectTable from './ProjectTable.jsx'
 import CreateProjectDialog from './CreateProjectDialog.jsx'
 

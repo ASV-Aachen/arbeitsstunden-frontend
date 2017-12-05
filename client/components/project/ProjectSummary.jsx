@@ -7,7 +7,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
 
-import { Config } from '../../config.js';
+import { Config } from '../../../config.js';
 
 export default class ProjectSummary extends React.Component {
 	constructor(props) {
