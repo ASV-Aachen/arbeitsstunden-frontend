@@ -3,7 +3,7 @@ import request from 'superagent';
 
 import Grid from 'material-ui/Grid';
 
-import { Config } from '../../config.js';
+import { Config } from '../../../config.js';
 import MembersSummary from './MembersSummary.jsx'
 import MembersDistributionGraph from './MembersDistributionGraph.jsx'
 import MembersList from './MembersList.jsx'

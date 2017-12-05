@@ -12,7 +12,7 @@ import Typography from 'material-ui/Typography';
 import ThumbDown from 'material-ui-icons/ThumbDown';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 
-import { Config } from '../../config.js';
+import { Config } from '../../../config.js';
 
 const columnData = [
 	{ id: 'firstName', label: 'Vorname' },
