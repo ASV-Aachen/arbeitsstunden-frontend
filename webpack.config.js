@@ -16,7 +16,8 @@ const config = {
 	module: {
 		loaders: [
 			{test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ }, 
-			{test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+			{test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
+			{test: /\.svg$/, use: "file-loader"},
 		]
 	},
 	plugins: [HtmlWebpackPluginConfig]
