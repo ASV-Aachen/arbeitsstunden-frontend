@@ -119,9 +119,9 @@ export default class MemberDetails extends React.Component {
 							if (interval.reduction > 0) {
 								reduction = "(Reduktion: " + (interval.reduction/60) + " Stunden)";
 							}
-							return (<div key={interval.from}> {this.toSeasonString(interval.from)} {this.toHumanReadable(interval.status)} {reduction} </div>) 
+							return (<span key={interval.from}> {this.toSeasonString(interval.from)} {this.toHumanReadable(interval.status)} {reduction} <br /></span>) 
 						} else {
-							return (<div key={interval.from}> {this.toSeasonString(interval.from)} - {this.toSeasonString(interval.to)} {this.toHumanReadable(interval.status)} </div>) 
+							return (<span key={interval.from}> {this.toSeasonString(interval.from)} - {this.toSeasonString(interval.to)} {this.toHumanReadable(interval.status)} <br /></span>) 
 						}
 
 					}) }

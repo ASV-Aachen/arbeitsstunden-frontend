@@ -1,22 +1,61 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Cookies from 'universal-cookie';
+import { Link } from 'react-router-dom';
 
-import { Link } from 'react-router';
+
+import AuthRoute from './AuthRoute.jsx';
+
+import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
 
 export default class Header extends React.Component {
 
+	logout = () => {
+		const cookies = new Cookies();
+		cookies.remove('token');
+		location.reload();
+	}
+
 	render() {
 		return (
-			<div>test</div>
-	//		<header>
-	//			<nav>
-	//				<ul>
-	//					<li><Link to='/'>Home</Link></li>
-	//					<li><Link to='/roster'>Roster</Link></li>
-	//					<li><Link to='/schedule'>Schedule</Link></li>
-	//				</ul>
-	//			</nav>
-	//		</header>
+				<AppBar position='static'>
+					<Toolbar>
+						<Typography type='display1' style={{flex:'1'}}>
+							<AuthRoute exact path="/" render={() => <span>Meine Arbeitsstunden</span> } />
+							<AuthRoute exact path="/members" render={() => <span>Mitglieder</span> } />
+							<AuthRoute exact path="/projects" render={() => <span>Projekte</span> } />
+							<AuthRoute exact path="/project/:projectId/:season" render={() => <span>XXX Bootsname XXX</span> }/>
+						</Typography>
+
+
+						<Link to="/" style={{textDecoration:'none'}}>
+							<Button>
+								Meine Stunden
+							</Button>
+						</Link>
+						<Link to="/projects" style={{textDecoration:'none'}}>
+							<Button>
+								Projekte	
+							</Button>
+						</Link>
+						<Link to="/members" style={{textDecoration:'none'}}>
+							<Button>
+								Mitglieder	
+							</Button>
+						</Link>
+						<Link to="/takel" style={{textDecoration:'none'}}>
+							<Button>
+								Takel	
+							</Button>
+						</Link>
+						<Button raised onClick={this.logout}>
+							Logout
+						</Button>
+					</Toolbar>
+				</AppBar>
 		);
 	}
 }
