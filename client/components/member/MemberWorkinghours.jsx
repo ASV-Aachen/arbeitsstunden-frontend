@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper';
 import { LinearProgress } from 'material-ui/Progress';
 
 import { Config } from '../../../config.js';
-import SeasonPicker from '../SeasonPicker.jsx';
+import SimpleSeasonPicker from '../picker/SimpleSeasonPicker.jsx';
 import WorkingHourItemTable from './WorkingHourItemTable.jsx'
 
 export default class MemberWorkinghours extends React.Component {
@@ -95,11 +95,15 @@ export default class MemberWorkinghours extends React.Component {
 			<Paper> 
 				<AppBar position='static'>
 					<Toolbar>
-						<Typography type="title" color="inherit" style={{flex:'1'}}>
+						<Typography type="title" color="inherit">
 							<span>Arbeitsstunden { workedHours } von { neededHours } </span>
 						</Typography>
 
-						<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged} />
+						<Typography type="title" color="inherit" align={'right'} style={{flex:'1'}}>
+							<span>Saison:&nbsp;</span>
+							<SimpleSeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged} />
+						</Typography>
+
 					</Toolbar>
 					{loading && <LinearProgress /> }
 				</AppBar>
