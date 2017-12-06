@@ -115,15 +115,15 @@ export default class WorkingHourItemTable extends React.Component {
 					{sortedData.map(n => {
 						return (
 							<TableRow key={n.id}>
-								<TableCell>{this.formatDate(n.date)}</TableCell>
-								<TableCell>{n.project}</TableCell>
+								<TableCell><Typography>{this.formatDate(n.date)}</Typography></TableCell>
+								<TableCell><Typography>{n.project}</Typography></TableCell>
 								<TableCell>
-										<Typography color='inherit' >
+										<Typography>
 											{n.title}
 											{n.title.length == 0 && 'Kein Titel vorhanden'}
 										</Typography>
 								</TableCell>
-								<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
+								<TableCell><Typography>{Math.ceil(n.duration/30)/2}</Typography></TableCell>
 							</TableRow>
 						);
 					})}

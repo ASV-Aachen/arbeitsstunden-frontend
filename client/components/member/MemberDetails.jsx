@@ -110,8 +110,9 @@ export default class MemberDetails extends React.Component {
 					{loading && <LinearProgress /> }
 				</AppBar>
 				<div style={{padding:15}}>
-					{ firstName } { lastName }<br /><br />
-					{ email }<br /><br />
+					<Typography paragraph>{ firstName } { lastName }</Typography>
+					<Typography paragraph>{ email }</Typography>
+					<Typography>
 					{ intervals.map((interval) => {
 						if (interval.to == undefined) {
 							let reduction = "";
@@ -124,6 +125,7 @@ export default class MemberDetails extends React.Component {
 						}
 
 					}) }
+					</Typography>
 				</div>
 			</Paper>
 		);
