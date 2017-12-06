@@ -11,6 +11,16 @@ import Button from 'material-ui/Button';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
+class ProjectHeader extends React.Component {
+
+
+	render(){
+		const { projectName } = this.props.match.params;
+		return (<span>{projectName}</span>)
+	}
+
+}
+
 export default class Header extends React.Component {
 
 	logout = () => {
@@ -27,7 +37,7 @@ export default class Header extends React.Component {
 							<AuthRoute exact path="/" render={() => <span>Meine Arbeitsstunden</span> } />
 							<AuthRoute exact path="/members" render={() => <span>Mitglieder</span> } />
 							<AuthRoute exact path="/projects" render={() => <span>Projekte</span> } />
-							<AuthRoute exact path="/project/:projectId/:season" render={() => <span>XXX Bootsname XXX</span> }/>
+							<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ProjectHeader}/>
 						</Typography>
 
 

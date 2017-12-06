@@ -117,7 +117,7 @@ export default class ProjectTable extends React.Component {
 										<TableCell>{n.name}</TableCell>
 										<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
 										<TableCell>
-											<Link to={"/project/"+n.id+"/"+season}>
+											<Link to={"/project/"+encodeURIComponent(n.name)+"/"+season+"/"+n.id}>
 							<MoreHoriz />
 											</Link>
 										</TableCell>
