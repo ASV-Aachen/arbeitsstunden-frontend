@@ -117,7 +117,7 @@ export default class MemberDetails extends React.Component {
 						if (interval.to == undefined) {
 							let reduction = "";
 							if (interval.reduction > 0) {
-								reduction = "Reduktion: " + (interval.reduction/60);
+								reduction = "(Reduktion: " + (interval.reduction/60) + " Stunden)";
 							}
 							return (<div key={interval.from}> {this.toSeasonString(interval.from)} {this.toHumanReadable(interval.status)} {reduction} </div>) 
 						} else {
