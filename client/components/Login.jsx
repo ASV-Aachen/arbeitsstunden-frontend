@@ -10,6 +10,9 @@ import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
+
+import asv_logo from '../images/logo.svg';
+
 export default class Login extends React.Component {
 	static propTypes = {
 		onLogin: PropTypes.func.isRequired,
@@ -34,6 +37,13 @@ export default class Login extends React.Component {
 
 		return (
 			<div>
+				<img style={{
+						position:"absolute", 
+						width:"200px",
+						right:0,
+						top:0,
+						zIndex:-1,
+						}} alt="asv-logo" src={asv_logo} />
 				<AppBar position='static'>
 					<Toolbar>
 						<Typography type='title' color='inherit' style={{flex:'1'}}>

@@ -9,6 +9,7 @@ import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 
 import Login from './Login.jsx'
+import { Config } from '../../config.js';
 
 export default class LoginScreen extends React.Component {
 	static isPublic = true;
@@ -25,7 +26,8 @@ export default class LoginScreen extends React.Component {
 		this.setState({
 			isLoading: true,
 		});
-        const endpoint = 'http://localhost:8081/api/session';
+
+		const endpoint = Config.baseurl + Config.endpoints.login;
 
 		const credentials = {
 			email: email, 

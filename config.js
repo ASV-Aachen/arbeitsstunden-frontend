@@ -2,6 +2,7 @@
 export const Config = {
 	baseurl: 'http://localhost:8081',
 	endpoints:  {
+		login: '/api/session',
 		users: '/api/users',
 		seasons: '/api/seasons',
 		projects: '/api/projects/',
