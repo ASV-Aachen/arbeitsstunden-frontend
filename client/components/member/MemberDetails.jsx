@@ -5,6 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
+import { LinearProgress } from 'material-ui/Progress';
 import { Config } from '../../../config.js';
 
 export default class MemberDetails extends React.Component {
@@ -17,6 +18,7 @@ export default class MemberDetails extends React.Component {
 			email: "",
 			seasonReduction: [],
 			intervals: [],
+			loading: false,
 		};
 	};
 
@@ -45,11 +47,12 @@ export default class MemberDetails extends React.Component {
 			}
 		});
 		
-		console.log(intervals);
 		return intervals;
 	}
 
 	loadMemberDetails = () => {
+		this.setState({loading: true});
+
 		const endpoint = Config.baseurl + Config.endpoints.memberDetails;
 
         request.get(endpoint)
@@ -67,8 +70,12 @@ export default class MemberDetails extends React.Component {
 					email: body.email,
 					seasonReduction: reductions,
 					intervals: intervals,
+					loading: false,
 				});
             }, failure => {
+				this.setState({
+					loading: false,
+				});
                 console.error("Error: getting graph overview (Response: ", failure.status, ")", failure);
             });
      }
@@ -91,7 +98,7 @@ export default class MemberDetails extends React.Component {
 	}
 
 	render() {
-		const { firstName, lastName, email, intervals } = this.state;
+		const { loading, firstName, lastName, email, intervals } = this.state;
 		return (
 			<Paper style={{height:300}}> 
 				<AppBar position='static'>
@@ -100,6 +107,7 @@ export default class MemberDetails extends React.Component {
 							<span>Daten</span>
 						</Typography>
 					</Toolbar>
+					{loading && <LinearProgress /> }
 				</AppBar>
 				<div style={{padding:15}}>
 					{ firstName } { lastName }<br /><br />

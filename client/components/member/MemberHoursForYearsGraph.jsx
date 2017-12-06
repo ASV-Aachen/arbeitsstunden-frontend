@@ -5,6 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
+import { LinearProgress } from 'material-ui/Progress';
 import { Config } from '../../../config.js';
 
 import {Bar} from 'react-chartjs-2';
@@ -18,6 +19,7 @@ export default class MemberHoursForYearsGraph extends React.Component {
 			hours: [],
 			labels: [],
 			obligatoryHours: [],
+			loading: false,
 		};
 	};
 
@@ -26,6 +28,8 @@ export default class MemberHoursForYearsGraph extends React.Component {
     };
 
 	loadGraphData = () => {
+		this.setState({loading: true});
+
 		const endpoint = Config.baseurl + Config.endpoints.memberOverview;
 
         request.get(endpoint)
@@ -47,14 +51,16 @@ export default class MemberHoursForYearsGraph extends React.Component {
 					hours: hours,
 					labels: labels,
 					obligatoryHours: obligatoryHours,
+					loading:false,
 				});
             }, failure => {
                 console.error("Error: getting graph overview (Response: ", failure.status, ")", failure);
+				this.setState({loading: false});
             });
      }
 
 	render() {
-		const { labels, hours, obligatoryHours } = this.state;
+		const { loading, labels, hours, obligatoryHours } = this.state;
 
 		const data = {
 			labels: labels,
@@ -96,6 +102,7 @@ export default class MemberHoursForYearsGraph extends React.Component {
 							<span>Arbeitsstunden Übersicht</span>
 						</Typography>
 					</Toolbar>
+					{loading && <LinearProgress /> }
 				</AppBar>
 					
 				<div style={{padding:10, paddingTop:15}}>

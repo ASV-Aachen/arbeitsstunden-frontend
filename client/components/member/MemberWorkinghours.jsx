@@ -5,6 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
+import { LinearProgress } from 'material-ui/Progress';
 
 import { Config } from '../../../config.js';
 import SeasonPicker from '../SeasonPicker.jsx';
@@ -19,6 +20,7 @@ export default class MemberWorkinghours extends React.Component {
 			selectedSeason: 0,
 			currentSeason: 0,
 			currentWorkinghours: [],
+			loading: false,
 		};
 	};
 
@@ -27,6 +29,8 @@ export default class MemberWorkinghours extends React.Component {
     };
 
 	loadInitialWorkinghours = () => {
+		this.setState({loading: true});
+
 		const endpoint = Config.baseurl + Config.endpoints.activeMemberWorkinghours;
 
         request.get(endpoint)
@@ -47,14 +51,17 @@ export default class MemberWorkinghours extends React.Component {
 					selectedSeason: body.activeYear,
 					currentSeason: body.activeYear,
 					seasons: body.seasons.sort(function (a,b) {return b.year - a.year}),
-					seasonLabels: seasonLabels
+					seasonLabels: seasonLabels,
+					loading: false,
 				});
             }, failure => {
+				this.setState({loading: false});
                 console.error("Error: getting current working hour entries (Response: ", failure.status, ")", failure);
             });
      }
 
 	loadWorkinghours = (year) => {
+		this.setState({loading: true});
 		const endpoint = Config.baseurl + Config.endpoints.memberWorkinghours + year;
         request.get(endpoint)
             .set('Content-Type', 'application/json')
@@ -66,8 +73,10 @@ export default class MemberWorkinghours extends React.Component {
 					neededHours: Math.ceil(body.neededMinutes/30)/2,
 					workedHours: Math.ceil(body.workedMinutes/30)/2,
 					currentWorkinghours: workinghours,
+					loading: false,
 				});
             }, failure => {
+				this.setState({loading: false});
                 console.error("Error: getting working hours (Response: ", failure.status, ")", failure);
             });
      }
@@ -80,7 +89,7 @@ export default class MemberWorkinghours extends React.Component {
 	}
 
 	render() {
-		const { currentSeason, selectedSeason, seasons, currentWorkinghours, neededHours, workedHours } = this.state;
+		const { loading, currentSeason, selectedSeason, seasons, currentWorkinghours, neededHours, workedHours } = this.state;
 
 		return (
 			<Paper> 
@@ -92,6 +101,7 @@ export default class MemberWorkinghours extends React.Component {
 
 						<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged} />
 					</Toolbar>
+					{loading && <LinearProgress /> }
 				</AppBar>
 				<WorkingHourItemTable workinghours={currentWorkinghours} />
 			</Paper>
