@@ -2,6 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
+import Typography from 'material-ui/Typography';
 
 const columnData = [
 	{ id: 'date', label: 'Datum' },
@@ -100,14 +101,6 @@ export default class WorkingHourItemTable extends React.Component {
 		return '' + (d <= 9 ? '0' + d : d) + '.' + (m<=9 ? '0' + m : m) + '.' + y ;
 	}
 
-	truncate = (string, n, useWordBoundary) => {
-		if (string.length <= n) { return string; }
-		var subString = string.substr(0, n-1);
-		return (useWordBoundary 
-		   ? subString.substr(0, subString.lastIndexOf(' ')) 
-		   : subString) + "...";
-	}
-
 	render() {
 		const { sortedData, order, orderBy } = this.state;
 
@@ -124,14 +117,19 @@ export default class WorkingHourItemTable extends React.Component {
 							<TableRow key={n.id}>
 								<TableCell>{this.formatDate(n.date)}</TableCell>
 								<TableCell>{n.project}</TableCell>
-								<TableCell>{this.truncate(n.title, 50, true)}</TableCell>
+								<TableCell>
+										<Typography color='inherit' >
+											{n.title}
+											{n.title.length == 0 && 'Kein Titel vorhanden'}
+										</Typography>
+								</TableCell>
 								<TableCell>{Math.ceil(n.duration/30)/2}</TableCell>
 							</TableRow>
 						);
 					})}
 					{sortedData.length == 0 &&
 							<TableRow>
-								<TableCell style={{textAlign:'center'}} colSpan={4}>Keine Arbeitsstunden gefunden</TableCell>
+								<TableCell style={{textAlign:'center'}} colSpan={4}>Keine Arbeiten gefunden</TableCell>
 							</TableRow>
 					}
 				</TableBody>

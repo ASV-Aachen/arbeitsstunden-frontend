@@ -76,6 +76,7 @@ export default class MemberHoursForYearsGraph extends React.Component {
 		};
 
 		const options = {
+			maintainAspectRatio: false,
 			legend: {
 				display: true,
 				position: 'bottom',
@@ -104,11 +105,9 @@ export default class MemberHoursForYearsGraph extends React.Component {
 					</Toolbar>
 					{loading && <LinearProgress /> }
 				</AppBar>
-					
-				<div style={{padding:10, paddingTop:15}}>
-					<Bar data={data} options={options}/>
+				<div style={{padding:10, paddingTop:15, height:215}}>
+					<Bar data={data} options={options} />
 				</div>
-
 			</Paper>
 		);
 	}
