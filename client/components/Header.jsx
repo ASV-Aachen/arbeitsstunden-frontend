@@ -11,14 +11,52 @@ import Button from 'material-ui/Button';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
+import SimpleSeasonPicker from './picker/SimpleSeasonPicker.jsx';
+
+class MemberHeader extends React.Component {
+	render(){
+		return (
+			<Typography type='display1' style={{flex:'1'}}>
+				Meine Arbeitsstunden
+			</Typography>
+		);
+	}
+}
+class MembersHeader extends React.Component {
+	render(){
+		return (
+			<Typography type='display1' style={{flex:'1'}}>
+				Mitglieder
+			</Typography>
+		);
+	}
+}
 class ProjectHeader extends React.Component {
-
-
 	render(){
 		const { projectName } = this.props.match.params;
-		return (<span>{projectName}</span>)
+		return (
+			<Typography type='display1' style={{flex:'1'}}>
+				{projectName}
+			</Typography>
+		);
 	}
-
+}
+class ProjectsHeader extends React.Component {
+	render(){
+		return (
+				<div style={{display:'flex', flex:'1'}}>
+					<Typography type='display1'>
+						Projekte
+					</Typography>
+					<div style={{flex:'1', margin: 'auto', marginLeft:'10px'}}>
+						<Typography type="title" style={{float:'left'}}>
+							<span>Saison&nbsp;</span>
+						</Typography>
+						<SimpleSeasonPicker seasons={[]} selected={0} current={0} onChange={()=>{}} />
+					</div>
+				</div>
+		)
+	}
 }
 
 export default class Header extends React.Component {
@@ -33,12 +71,10 @@ export default class Header extends React.Component {
 		return (
 				<AppBar position='static'>
 					<Toolbar>
-						<Typography type='display1' style={{flex:'1'}}>
-							<AuthRoute exact path="/" render={() => <span>Meine Arbeitsstunden</span> } />
-							<AuthRoute exact path="/members" render={() => <span>Mitglieder</span> } />
-							<AuthRoute exact path="/projects" render={() => <span>Projekte</span> } />
+							<AuthRoute exact path="/" component={MemberHeader} />
+							<AuthRoute exact path="/members" component={MembersHeader} />
+							<AuthRoute exact path="/projects" component={ProjectsHeader} />
 							<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ProjectHeader}/>
-						</Typography>
 
 
 						<Link to="/" style={{textDecoration:'none'}}>
