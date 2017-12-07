@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import { LinearProgress } from 'material-ui/Progress';
 
 export default class ProjectsDistributionGraph extends React.Component {
 	constructor(props) {
@@ -23,6 +24,7 @@ export default class ProjectsDistributionGraph extends React.Component {
 							<span>Arbeitsstundenverteilung</span>
 						</Typography>
 					</Toolbar>
+					{true && <LinearProgress /> }
 				</AppBar>
 				TODO: Fill me oO
 			</Paper>
