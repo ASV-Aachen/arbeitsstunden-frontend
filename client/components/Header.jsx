@@ -49,15 +49,27 @@ class ProjectsHeader extends React.Component {
 	};
 
 	seasonSelected = (selectedSeason) => {
+		this.props.history.push('/projects/'+selectedSeason);
 		this.setState({
 			selectedSeason: selectedSeason,
 		});
 	}
 
 	render() {
-		const { selectedSeason } = this.state; //TODO get active Season from url!
-		const { availableSeasons } = this.props;
+		let { selectedSeason } = this.state;
+		const { availableSeasons, history } = this.props;
 		const { seasons, activeSeason } = availableSeasons;
+
+		if (selectedSeason == -1) {
+			const { season } = this.props.match.params;
+			if (season == undefined) {
+				selectedSeason = activeSeason; 
+				history.push('/projects/'+activeSeason);
+			} else {
+				selectedSeason = parseInt(season);
+			}
+		}
+
 		return (
 			<div style={{display:'flex', flex:'1'}}>
 				<Typography type='display1'>
@@ -89,7 +101,10 @@ export default class Header extends React.Component {
 					<Toolbar>
 							<AuthRoute exact path="/" component={MemberHeader} />
 							<AuthRoute exact path="/members" component={MembersHeader} />
-							<AuthRoute exact path="/projects" children={()=><ProjectsHeader availableSeasons={availableSeasons} />} />
+							<AuthRoute exact path="/projects/:season?" render={
+								(props) => {
+									return(<ProjectsHeader availableSeasons={availableSeasons} {...props} />);
+								}} />
 							<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ProjectHeader}/>
 
 
