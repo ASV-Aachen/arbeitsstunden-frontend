@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import request from 'superagent';
 
 import Grid from 'material-ui/Grid';
@@ -10,6 +11,10 @@ import ProjectsDistributionGraph from './ProjectsDistributionGraph.jsx'
 import ProjectsDetails from './ProjectsDetails.jsx'
 
 export default class ProjectsScreen extends React.Component {
+	static propTypes = {
+		onAvailableSeasonsLoaded: PropTypes.func.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 	}
@@ -24,9 +29,9 @@ export default class ProjectsScreen extends React.Component {
             .set('Content-Type', 'application/json')
             .then(success => {
 				const body = success.body;
-				console.log(body);
+				this.props.onAvailableSeasonsLoaded(body);
             }, failure => {
-                console.error("Error: getting current projects (Response: ", failure.status, ")", failure);
+                console.error("Error: getting available seasons (Response: ", failure.status, ")", failure);
             });
      }
 

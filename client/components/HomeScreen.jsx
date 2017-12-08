@@ -14,19 +14,34 @@ import ProjectsScreen from './projects/ProjectsScreen.jsx';
 import ProjectDetailsScreen from './project/ProjectDetailsScreen.jsx';
 
 export default class HomeScreen extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			availableSeasons: {
+				seasons: [],
+				activeSeason: -1,
+			},
+		};
+	};
 
+	availableSeasonsLoaded = (availableSeasons) => {
+		this.setState({
+			availableSeasons: availableSeasons,
+		});
+	} 
 
 	render() {
+		const { availableSeasons } = this.state;
 		return (
 			<Grid container>
 				<Grid item xs={12}>
-					<Header />
+					<Header availableSeasons={availableSeasons} />
 				</Grid>
 				<Grid container style={{margin:12, marginTop:0}}>
 					<Grid item xs={12} sm={12}>
 						<AuthRoute exact path="/" component={ MemberScreen } />
 						<AuthRoute exact path="/members" component={ MembersScreen } />
-						<AuthRoute exact path="/projects" component={ ProjectsScreen } />
+						<AuthRoute exact path="/projects" children={()=> <ProjectsScreen onAvailableSeasonsLoaded={this.availableSeasonsLoaded} /> } />
 						<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ ProjectDetailsScreen } />
 					</Grid>
 				</Grid>
