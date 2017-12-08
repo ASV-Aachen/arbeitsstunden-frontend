@@ -14,6 +14,22 @@ export default class ProjectsScreen extends React.Component {
 		super(props);
 	}
 
+	componentWillMount() {
+        this.loadAvailableSeasons();
+    };
+
+	loadAvailableSeasons = () => {
+		const endpoint = Config.baseurl + Config.endpoints.seasons;
+        request.get(endpoint)
+            .set('Content-Type', 'application/json')
+            .then(success => {
+				const body = success.body;
+				console.log(body);
+            }, failure => {
+                console.error("Error: getting current projects (Response: ", failure.status, ")", failure);
+            });
+     }
+
 	render() {
 		return (
 			<Grid container spacing={24}>
@@ -27,7 +43,6 @@ export default class ProjectsScreen extends React.Component {
 					<ProjectsDetails />
 				</Grid>
 			</Grid>
-
 		);
 	}
 }
