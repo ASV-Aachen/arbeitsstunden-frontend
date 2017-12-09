@@ -13,6 +13,7 @@ import ProjectsDetails from './ProjectsDetails.jsx'
 export default class ProjectsScreen extends React.Component {
 	static propTypes = {
 		onAvailableSeasonsLoaded: PropTypes.func.isRequired,
+		season: PropTypes.number.isRequired,
 	};
 
 	constructor(props) {
@@ -36,6 +37,8 @@ export default class ProjectsScreen extends React.Component {
      }
 
 	render() {
+		const { season } = this.props;
+		//TODO pass season to components
 		return (
 			<Grid container spacing={24}>
 				<Grid item xs={12} sm={6}>

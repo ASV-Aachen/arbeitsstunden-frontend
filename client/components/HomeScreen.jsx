@@ -21,6 +21,7 @@ export default class HomeScreen extends React.Component {
 				seasons: [],
 				activeSeason: -1,
 			},
+			selectedSeason: -1,
 		};
 	};
 
@@ -30,18 +31,24 @@ export default class HomeScreen extends React.Component {
 		});
 	} 
 
+	seasonSelected = (season) => {
+		this.setState({
+			selectedSeason: season,
+		});
+	}
+
 	render() {
-		const { availableSeasons } = this.state;
+		const { selectedSeason, availableSeasons } = this.state;
 		return (
 			<Grid container>
 				<Grid item xs={12}>
-					<Header availableSeasons={availableSeasons} />
+					<Header availableSeasons={availableSeasons} onSelectedSeason={this.seasonSelected}/>
 				</Grid>
 				<Grid container style={{margin:12, marginTop:0}}>
 					<Grid item xs={12} sm={12}>
 						<AuthRoute exact path="/" component={ MemberScreen } />
 						<AuthRoute exact path="/members" component={ MembersScreen } />
-						<AuthRoute exact path="/projects" children={()=> <ProjectsScreen onAvailableSeasonsLoaded={this.availableSeasonsLoaded} /> } />
+						<AuthRoute exact path="/projects" children={()=> <ProjectsScreen onAvailableSeasonsLoaded={this.availableSeasonsLoaded} season={selectedSeason} /> } />
 						<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ ProjectDetailsScreen } />
 					</Grid>
 				</Grid>

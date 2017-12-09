@@ -49,6 +49,7 @@ class ProjectsHeader extends React.Component {
 	};
 
 	seasonSelected = (selectedSeason) => {
+		this.props.onSelectedSeason(selectedSeason);
 		this.props.history.push('/projects/'+selectedSeason);
 		this.setState({
 			selectedSeason: selectedSeason,
@@ -94,7 +95,7 @@ export default class Header extends React.Component {
 	}
 
 	render() {
-		const { availableSeasons } = this.props;
+		const { availableSeasons, onSelectedSeason } = this.props;
 
 		return (
 				<AppBar position='static'>
@@ -103,7 +104,7 @@ export default class Header extends React.Component {
 							<AuthRoute exact path="/members" component={MembersHeader} />
 							<AuthRoute exact path="/projects/:season?" render={
 								(props) => {
-									return(<ProjectsHeader availableSeasons={availableSeasons} {...props} />);
+									return(<ProjectsHeader availableSeasons={availableSeasons} onSelectedSeason={onSelectedSeason} {...props} />);
 								}} />
 							<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ProjectHeader}/>
 
