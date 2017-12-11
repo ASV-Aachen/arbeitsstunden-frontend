@@ -7,17 +7,52 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { LinearProgress } from 'material-ui/Progress';
 
+import { Config } from '../../../config.js';
+import ProjectsTable from './ProjectsTable.jsx'
+
 export default class ProjectsDetails extends React.Component {
 	constructor(props) {
 		super(props);
+		
+		this.state = {
+			loading: true,
+			projects: [],
+		}
 	};
 
 	componentWillMount() {
+		if (this.props.season != -1) {
+			this.setState({loading: true});
+			this.loadProjects(this.props.season);
+		}
     };
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.season != nextProps.season) {
+			this.setState({loading: true});
+			this.loadProjects(nextProps.season);
+		}
+	}
+
+	loadProjects = (season) => {
+		const endpoint = Config.baseurl + Config.endpoints.projects + season;
+        request.get(endpoint)
+            .set('Content-Type', 'application/json')
+            .then(success => {
+				const projects = success.body;
+				this.setState({
+					projects: projects,
+				});
+            }, failure => {
+                console.error("Error: getting projects (Response: ", failure.status, ")", failure);
+				this.setState({ snackbarOpen: true});
+            });
+     }
+	
 
 	render() {
 		const { season } = this.props;
-		console.log(season);
+		const { loading, projects } = this.state;
 		return (
 			<Paper>
 				<AppBar position='static'>
@@ -26,9 +61,9 @@ export default class ProjectsDetails extends React.Component {
 							<span>Projekte</span>
 						</Typography>
 					</Toolbar>
-					{true && <LinearProgress /> }
+					{loading && <LinearProgress /> }
 				</AppBar>
-				TODO: Fill me oO
+				<ProjectsTable projects={projects} season={season} />
 			</Paper>
 		);
 	}
