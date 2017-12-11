@@ -5,6 +5,7 @@ export const Config = {
 		login: '/api/session',
 		users: '/api/users',
 		seasons: '/api/seasons',
+		seasonNext: '/api/seasons/next',
 		projects: '/api/projects/',
 		projectSummary: '/api/projects/summary',
 		projectDetails: '/api/projects/details',

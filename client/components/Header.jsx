@@ -101,6 +101,15 @@ class ProjectsHeader extends React.Component {
 		)
 	}
 }
+class TakelHeader extends React.Component {
+	render(){
+		return (
+			<Typography type='display1' style={{flex:'1'}}>
+				Takel
+			</Typography>
+		);
+	}
+}
 
 export default class Header extends React.Component {
 	logout = () => {
@@ -122,6 +131,7 @@ export default class Header extends React.Component {
 									return(<ProjectsHeader availableSeasons={availableSeasons} onSelectedSeason={onSelectedSeason} {...props} />);
 								}} />
 							<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ProjectHeader}/>
+							<AuthRoute exact path="/takel" component={TakelHeader} />
 
 
 						<Link to="/" style={{textDecoration:'none'}}>

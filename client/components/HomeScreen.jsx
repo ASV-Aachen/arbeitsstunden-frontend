@@ -12,6 +12,7 @@ import MemberScreen from './member/MemberScreen.jsx';
 import MembersScreen from './members/MembersScreen.jsx';
 import ProjectsScreen from './projects/ProjectsScreen.jsx';
 import ProjectDetailsScreen from './project/ProjectDetailsScreen.jsx';
+import TakelScreen from './takel/TakelScreen.jsx';
 
 export default class HomeScreen extends React.Component {
 	constructor(props) {
@@ -50,6 +51,7 @@ export default class HomeScreen extends React.Component {
 						<AuthRoute exact path="/members" component={ MembersScreen } />
 						<AuthRoute exact path="/projects/:season?" render={(props)=> <ProjectsScreen onAvailableSeasonsLoaded={this.availableSeasonsLoaded} season={selectedSeason} /> } />
 						<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ ProjectDetailsScreen } />
+						<AuthRoute exact path="/takel" component={ TakelScreen } />
 					</Grid>
 				</Grid>
 			</Grid>
