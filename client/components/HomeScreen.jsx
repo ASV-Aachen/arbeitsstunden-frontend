@@ -48,7 +48,7 @@ export default class HomeScreen extends React.Component {
 					<Grid item xs={12} sm={12}>
 						<AuthRoute exact path="/" component={ MemberScreen } />
 						<AuthRoute exact path="/members" component={ MembersScreen } />
-						<AuthRoute exact path="/projects" children={()=> <ProjectsScreen onAvailableSeasonsLoaded={this.availableSeasonsLoaded} season={selectedSeason} /> } />
+						<AuthRoute exact path="/projects/:season?" render={(props)=> <ProjectsScreen onAvailableSeasonsLoaded={this.availableSeasonsLoaded} season={selectedSeason} /> } />
 						<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ ProjectDetailsScreen } />
 					</Grid>
 				</Grid>

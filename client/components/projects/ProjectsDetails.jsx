@@ -42,6 +42,7 @@ export default class ProjectsDetails extends React.Component {
 				const projects = success.body;
 				this.setState({
 					projects: projects,
+					loading: false,
 				});
             }, failure => {
                 console.error("Error: getting projects (Response: ", failure.status, ")", failure);
