@@ -40,12 +40,16 @@ export default class ProjectsScreen extends React.Component {
 		const { season } = this.props;
 		return (
 			<Grid container spacing={24}>
+			{ false && 
 				<Grid item xs={12} sm={6}>
 					<ProjectsSummary />
-				</Grid>
+				</Grid> 
+			}
+			{ false && 
 				<Grid item xs={12} sm={6}>
 					<ProjectsDistributionGraph />
 				</Grid>
+			}
 				<Grid item xs={12}>
 					<ProjectsDetails season={season}/>
 				</Grid>
