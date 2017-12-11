@@ -16,6 +16,8 @@ export default class ProjectsDetails extends React.Component {
     };
 
 	render() {
+		const { season } = this.props;
+		console.log(season);
 		return (
 			<Paper>
 				<AppBar position='static'>

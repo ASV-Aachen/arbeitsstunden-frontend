@@ -47,6 +47,27 @@ class ProjectsHeader extends React.Component {
 			selectedSeason: -1,
 		};
 	};
+	
+	componentWillMount() {
+		let { selectedSeason } = this.state;
+		const { availableSeasons, history } = this.props;
+		const { seasons, activeSeason } = availableSeasons;
+
+		if (selectedSeason == -1) {
+			const { season } = this.props.match.params;
+			if (season != undefined) {
+				selectedSeason = parseInt(season);
+				this.seasonSelected(selectedSeason);
+			}
+		}
+    };
+
+	componentWillReceiveProps(nextProps) {
+		const { selectedSeason } = this.state;
+		if (selectedSeason == -1) {
+			this.seasonSelected(nextProps.availableSeasons.activeSeason);
+		}
+	};
 
 	seasonSelected = (selectedSeason) => {
 		this.props.onSelectedSeason(selectedSeason);
@@ -58,17 +79,11 @@ class ProjectsHeader extends React.Component {
 
 	render() {
 		let { selectedSeason } = this.state;
+
 		const { availableSeasons, history } = this.props;
 		const { seasons, activeSeason } = availableSeasons;
-
-		if (selectedSeason == -1) {
-			const { season } = this.props.match.params;
-			if (season == undefined) {
-				selectedSeason = activeSeason; 
-				history.push('/projects/'+activeSeason);
-			} else {
-				selectedSeason = parseInt(season);
-			}
+		if( selectedSeason == -1) {
+			selectedSeason = activeSeason;
 		}
 
 		return (

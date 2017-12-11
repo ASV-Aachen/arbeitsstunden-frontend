@@ -38,7 +38,6 @@ export default class ProjectsScreen extends React.Component {
 
 	render() {
 		const { season } = this.props;
-		//TODO pass season to components
 		return (
 			<Grid container spacing={24}>
 				<Grid item xs={12} sm={6}>
@@ -48,7 +47,7 @@ export default class ProjectsScreen extends React.Component {
 					<ProjectsDistributionGraph />
 				</Grid>
 				<Grid item xs={12}>
-					<ProjectsDetails />
+					<ProjectsDetails season={season}/>
 				</Grid>
 			</Grid>
 		);
