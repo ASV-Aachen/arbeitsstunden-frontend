@@ -3,8 +3,12 @@ import request from 'superagent';
 
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
 import Toolbar from 'material-ui/Toolbar';
+import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
+import Input, { InputLabel } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
 
 import { Config } from '../../../config.js';
 
@@ -16,6 +20,8 @@ export default class CreateSeason extends React.Component {
 
 		this.state = {
 			loading: true,
+			nextSeason: -1,
+			obligatoryHours: 50,
 		};
 	};
 
@@ -33,10 +39,9 @@ export default class CreateSeason extends React.Component {
             .then(success => {
 				const body = success.body;
 
-				console.log(body);
-
 				this.setState({
 					loading: false,
+					nextSeason: body.nextSeason,
 				});
             }, failure => {
 				this.setState({
@@ -46,8 +51,46 @@ export default class CreateSeason extends React.Component {
             });
      }
 
+	createSeason = (newSeason) => {
+		if (this.state.loading) {
+			return;	
+		}
+
+		this.setState({loading: true});
+		const endpoint = Config.baseurl + Config.endpoints.seasons;
+
+		request.post(endpoint)
+			.send(newSeason)
+			.set('Content-Type', 'application/json')
+			.then(success => {
+				const body = success.body;
+
+				//TODO bestaetigung
+
+				this.setState({
+					loading: false,
+					nextSeason: body.year + 1
+				});
+			}, failure => {
+				this.setState({
+					loading: false,
+				});
+				console.error("Error: creating next seasons (Response: ", failure.status, ")", failure);
+			});
+	}
+
+	handleClick = () => {
+		const { nextSeason, obligatoryHours } = this.state;
+		let seasonData = { 
+			year: nextSeason,
+			obligatoryMinutes: obligatoryHours * 60,
+		};
+
+		this.createSeason(seasonData);
+	}
+
 	render() {
-		const { loading } = this.state;
+		const { loading, nextSeason } = this.state;
 		return (
 			<Paper>
 				<AppBar position='static'>
@@ -59,7 +102,25 @@ export default class CreateSeason extends React.Component {
 					{ loading && <LinearProgress /> }
 				</AppBar>
 				<div style={{padding:15}}>
-					TODO: Fill me oO
+					<Typography paragraph>
+						Arbeitsstundensaison <b>{ nextSeason -1 }/{ nextSeason }</b>
+					</Typography>
+
+					<TextField
+						id='obligatoryHours'
+						fullWidth
+						label={'Pflichtarbeitsstunden'}
+						type='number'
+						defaultValue='50'
+						onChange={(event)=>{this.setState({obligatoryHours: event.target.value,})}}
+						InputLabelProps={{
+							shrink: true,
+						}}
+					/>
+					<br /><br />	
+					<Button raised onClick={this.handleClick} >
+						Anlegen
+					</Button>
 				</div>
 			</Paper>
 		);
