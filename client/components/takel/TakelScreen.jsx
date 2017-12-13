@@ -4,7 +4,7 @@ import request from 'superagent';
 import Grid from 'material-ui/Grid';
 
 import CreateSeason from './CreateSeason.jsx';
-import { Config } from '../../../config.js';
+import CreateWorkinghour from './CreateWorkinghour.jsx';
 
 export default class ProjectPage extends React.Component {
 	constructor(props) {
@@ -20,6 +20,7 @@ export default class ProjectPage extends React.Component {
 					<CreateSeason />
 				</Grid>
 				<Grid item xs={12} sm={6}>
+					<CreateWorkinghour />
 				</Grid>
 				<Grid item xs={12}>
 				</Grid>
