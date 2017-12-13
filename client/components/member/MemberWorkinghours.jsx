@@ -1,5 +1,6 @@
 import React from 'react';
 import request from 'superagent';
+import Cookies from 'universal-cookie';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -32,8 +33,12 @@ export default class MemberWorkinghours extends React.Component {
 		this.setState({loading: true});
 
 		const endpoint = Config.baseurl + Config.endpoints.activeMemberWorkinghours;
+		const cookies = new Cookies();
+		let user = cookies.get('username');
+		let pass = cookies.get('password');
 
         request.get(endpoint)
+			.auth(user, pass)
             .set('Content-Type', 'application/json')
             .then(success => {
 
@@ -62,8 +67,13 @@ export default class MemberWorkinghours extends React.Component {
 
 	loadWorkinghours = (year) => {
 		this.setState({loading: true});
+
 		const endpoint = Config.baseurl + Config.endpoints.memberWorkinghours + year;
+		const cookies = new Cookies();
+		let user = cookies.get('username');
+		let pass = cookies.get('password');
         request.get(endpoint)
+			.auth(user, pass)
             .set('Content-Type', 'application/json')
             .then(success => {
 				const body = success.body;

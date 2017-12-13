@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import request from 'superagent';
+import Cookies from 'universal-cookie';
 
 import Grid from 'material-ui/Grid';
 
@@ -26,7 +27,12 @@ export default class ProjectsScreen extends React.Component {
 
 	loadAvailableSeasons = () => {
 		const endpoint = Config.baseurl + Config.endpoints.seasons;
+		const cookies = new Cookies();
+		let user = cookies.get('username');
+		let pass = cookies.get('password');
+
         request.get(endpoint)
+			.auth(user, pass)
             .set('Content-Type', 'application/json')
             .then(success => {
 				const body = success.body;

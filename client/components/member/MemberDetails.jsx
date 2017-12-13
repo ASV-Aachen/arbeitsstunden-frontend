@@ -1,5 +1,6 @@
 import React from 'react';
 import request from 'superagent';
+import Cookies from 'universal-cookie';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -54,9 +55,13 @@ export default class MemberDetails extends React.Component {
 		this.setState({loading: true});
 
 		const endpoint = Config.baseurl + Config.endpoints.memberDetails;
+		const cookies = new Cookies();
+		let user = cookies.get('username');
+		let pass = cookies.get('password');
 
         request.get(endpoint)
             .set('Content-Type', 'application/json')
+			.auth(user, pass)
             .then(success => {
 				const body = success.body;
 

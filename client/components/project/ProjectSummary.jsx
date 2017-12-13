@@ -1,5 +1,6 @@
 import React from 'react';
 import request from 'superagent';
+import Cookies from 'universal-cookie';
 
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
@@ -25,8 +26,12 @@ export default class ProjectSummary extends React.Component {
 	loadProjectSummary = () => {
 		const { projectId, season } = this.props;
 		const endpoint = Config.baseurl + Config.endpoints.projectSummary + "/" + season + "/" + projectId;
+		const cookies = new Cookies();
+		let user = cookies.get('username');
+		let pass = cookies.get('password');
 
         request.get(endpoint)
+			.auth(user, pass)
             .set('Content-Type', 'application/json')
             .then(success => {
 				const body = success.body;

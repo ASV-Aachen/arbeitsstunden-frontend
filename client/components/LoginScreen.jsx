@@ -29,18 +29,16 @@ export default class LoginScreen extends React.Component {
 
 		const endpoint = Config.baseurl + Config.endpoints.login;
 
-		const credentials = {
-			email: email, 
-			password: password
-		};
-
         request.post(endpoint)
-			.send(credentials)
+			.auth(email, password)
             .set('Content-Type', 'application/json')
             .then(success => {
 				const session = success.body;
 				const cookies = new Cookies();
 				cookies.set('token', session.token, { path: '/' });
+
+				cookies.set('username', email);
+				cookies.set('password', password);
 
 				this.setState({
 					isLoading: false,
