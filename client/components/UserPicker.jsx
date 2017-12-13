@@ -14,7 +14,8 @@ import TextField from 'material-ui/TextField';
 
 export default class UserPicker extends React.PureComponent {
 	static propTypes = {
-		users: PropTypes.array.isRequired
+		users: PropTypes.array.isRequired,
+		onChange: PropTypes.func.isRequired,
 	}
 
 	constructor(props) {
@@ -48,6 +49,8 @@ export default class UserPicker extends React.PureComponent {
 			selectedUsers: [...prevState.selectedUsers, user],
 			selectedHours: newSelectedHours 
 		}));
+
+		this.props.onChange([...this.state.selectedUsers, user], newSelectedHours)
 	}
 
 	handleRemoveUser = (user) => {
@@ -59,6 +62,8 @@ export default class UserPicker extends React.PureComponent {
 			selectedUsers: filteredArray,
 			selectedHours: newSelectedHours
 		});
+	
+		this.props.onChange(filteredArray , newSelectedHours)
 	}
 
 	handleBaseHoursChanged = (event) => {
@@ -75,6 +80,8 @@ export default class UserPicker extends React.PureComponent {
 		this.setState(prevState => ({
 			selectedHours: newSelectedHours 
 		}));
+		
+		this.props.onChange(this.state.selectedUsers, newSelectedHours);
 	}
 
 	render() {
@@ -134,11 +141,11 @@ class BaseHourTextField extends React.PureComponent {
 				InputLabelProps={{
 					shrink: true,
 				}}
-				inputProps={{
-					step: .5, // 30 min
-					min: 0.5,
-					max: 24
-				}}
+			//	inputProps={{
+			//		step: .5, // 30 min
+			//		min: 0.5,
+			//		max: 24
+			//	}}
 			/>
 		); 
 
