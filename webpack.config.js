@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
@@ -20,7 +21,9 @@ const config = {
 			{test: /\.svg$/, use: "file-loader"},
 		]
 	},
-	plugins: [HtmlWebpackPluginConfig]
+	plugins: [
+		HtmlWebpackPluginConfig,
+	]
 }
 
 module.exports = config
