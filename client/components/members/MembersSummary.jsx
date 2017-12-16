@@ -28,7 +28,7 @@ export default class MembersSummary extends React.Component {
     };
 
 	loadMembersSummary = () => {
-		const endpoint = Config.baseurl + Config.endpoints.membersSummary + "/2017";
+		const endpoint = Config.baseurl + Config.endpoints.membersSummary + "/2018";
 		const cookies = new Cookies();
 		let user = cookies.get('username');
 		let pass = cookies.get('password');

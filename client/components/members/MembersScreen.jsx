@@ -23,7 +23,7 @@ export default class MembersScreen extends React.Component {
 					<MembersDistributionGraph />
 				</Grid>
 				<Grid item xs={12}>
-					<MembersList season={2017} />
+					<MembersList season={2018} />
 				</Grid>
 			</Grid>
 		);

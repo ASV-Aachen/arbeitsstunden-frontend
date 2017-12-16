@@ -27,7 +27,7 @@ export default class MembersDistributionGraph extends React.Component {
 	
 
 	loadGraphData = () => {
-		const endpoint = Config.baseurl + Config.endpoints.membersGraph + "/2017";
+		const endpoint = Config.baseurl + Config.endpoints.membersGraph + "/2018";
 		const cookies = new Cookies();
 		let user = cookies.get('username');
 		let pass = cookies.get('password');
