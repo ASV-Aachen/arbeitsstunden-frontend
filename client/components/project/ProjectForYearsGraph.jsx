@@ -55,8 +55,6 @@ export default class ProjectForYearsGraph extends React.Component {
 
 		const { labels, values } = this.state;
 
-		console.log(labels);
-
 		const data = {
 		  labels: labels,
 		  datasets: [
