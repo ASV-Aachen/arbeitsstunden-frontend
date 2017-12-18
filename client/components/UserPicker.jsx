@@ -47,10 +47,12 @@ export default class UserPicker extends React.PureComponent {
 
 		this.setState(prevState => ({
 			selectedUsers: [...prevState.selectedUsers, user],
-			selectedHours: newSelectedHours 
+			selectedHours: newSelectedHours,
+			searchFilter: '',
 		}));
 
 		this.props.onChange([...this.state.selectedUsers, user], newSelectedHours)
+
 	}
 
 	handleRemoveUser = (user) => {
@@ -107,7 +109,7 @@ export default class UserPicker extends React.PureComponent {
 				<br />
 				<br />
 				<br />
-				<SearchField onChange={this.handleSearchChange} />
+				<SearchField searchFilter={searchFilter} onChange={this.handleSearchChange} />
 				<br />
 				<UserList users={this.filterList(userListItems, searchFilter)} onSelect={this.handleSelectUser} />
 			</span>
@@ -231,20 +233,21 @@ class SelectedUsers extends React.PureComponent {
 	}
 }
 
-class SearchField extends React.PureComponent {
+class SearchField extends React.Component {
 	static propTypes = {
-		onChange: PropTypes.func.isRequired
+		onChange: PropTypes.func.isRequired,
+		searchFilter: PropTypes.string.isRequired,
 	}
 	
 	render() {
-		const { onChange } = this.props
+		const { onChange, searchFilter } = this.props
 
 		return (
 			<div style={{position: 'relative', display: 'inline-block', width:'100%'}}>
 				<SearchIcon style={{position: 'absolute', right: 0, top: 15, width: 20, height: 20}}/>
 				<FormControl style={{width:'100%'}}>
 					<InputLabel htmlFor='search'>Suche</InputLabel>
-					<Input placeholder='Suche' id='search' onChange={onChange} />
+					<Input placeholder='Suche' id='search' onChange={onChange} value={searchFilter} />
 				</FormControl>
 			</div>
 		);

@@ -227,7 +227,11 @@ export default class CreateWorkinghour extends React.Component {
 								);
 							})}
 					
-							<Button raised onClick={this.handleWorkinghourSaved}>
+							<Button 
+								raised 
+								onClick={this.handleWorkinghourSaved} 
+								style={{marginLeft:'auto', marginRight:'auto', display:'block'}}
+							>
 								Speichern
 							</Button>
 						</div>
@@ -285,18 +289,29 @@ export default class CreateWorkinghour extends React.Component {
 						);
 					})}
 				</Stepper>
-				{this.getStepContent(activeStep)}
-				<div>
-					<Button
-					  disabled={activeStep === 0}
-					  onClick={this.handleBack}
-					>
-					  Back
-					</Button>
-					<Button raised color="primary" onClick={this.handleNext} >
-					  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-					</Button>
+				<div style={{ padding:15 }}>
+					<Grid container>
+						<Grid item xs={6}>
+							<Button
+							  disabled={activeStep === 0}
+							  onClick={this.handleBack}
+							>
+								Zurück
+							</Button>
+						</Grid>
+						<Grid item xs={6}>
+							<Button 
+							  disabled={activeStep==steps.length-1}
+							  raised 
+							  color='primary' 
+							  style={{float:'right'}}
+							  onClick={this.handleNext} >
+								Weiter
+							</Button>
+						</Grid>
+					</Grid>
               </div>
+				{this.getStepContent(activeStep)}
 			</Paper>
 		);
 	}
