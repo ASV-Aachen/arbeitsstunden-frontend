@@ -83,6 +83,7 @@ export default class ProjectForYearsGraph extends React.Component {
 		};
 
 		const options = {
+			maintainAspectRatio: false,
 			legend: {
 				display: true,
 				position: 'bottom',
@@ -110,7 +111,7 @@ export default class ProjectForYearsGraph extends React.Component {
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				<div style={{padding:10, paddingTop:15}}>
+				<div style={{padding:10, paddingTop:15, height:215}}>
         			<Line data={data} options={options} />
 				</div>
 			</Paper>

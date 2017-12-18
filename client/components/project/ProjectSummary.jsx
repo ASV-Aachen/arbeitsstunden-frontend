@@ -49,7 +49,7 @@ export default class ProjectSummary extends React.Component {
 		const { description, percentage } = this.state;
 		const { projectId, season } = this.props;
 		return (
-			<Paper>
+			<Paper style={{height:300}}>
 				<AppBar position='static'>
 					<Toolbar>
 						<Typography type="title" color="inherit" style={{flex:'1'}}>
