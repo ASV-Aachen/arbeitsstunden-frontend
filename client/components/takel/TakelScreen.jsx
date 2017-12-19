@@ -19,8 +19,6 @@ export default class ProjectPage extends React.Component {
 				<Grid item xs={12} sm={6}>
 					<CreateSeason />
 				</Grid>
-				<Grid item xs={12} sm={6}>
-				</Grid>
 				<Grid item xs={12}>
 					<CreateWorkinghour />
 				</Grid>

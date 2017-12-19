@@ -2,6 +2,7 @@ import React from 'react';
 import request from 'superagent';
 import Cookies from 'universal-cookie';
 
+import AddIcon from 'material-ui-icons/Add';
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
@@ -20,6 +21,7 @@ import { Config } from '../../../config.js';
 import SeasonPicker from '../SeasonPicker.jsx';
 import ProjectPicker from '../ProjectPicker.jsx';
 import UserPicker from '../UserPicker.jsx';
+import CreateUserDialog from './CreateUserDialog.jsx'
 
 export default class CreateWorkinghour extends React.Component {
 	constructor(props) {
@@ -39,6 +41,8 @@ export default class CreateWorkinghour extends React.Component {
 
 			selectedUsers: [],
 			selectedWorkinghours: {},
+
+			createUserDialogOpen: false,
 		};
 	};
 
@@ -167,8 +171,22 @@ export default class CreateWorkinghour extends React.Component {
 			});
 	}
 
+	handleCreateUserCloseCanceled = () => {
+		this.setState({
+			createUserDialogOpen:false,
+		});
+	};
+
+	handleCreateUserCloseCreated = () => {
+		this.loadMembers();
+		this.setState({
+			createUserDialogOpen:false,
+		});
+	}
+
+
 	getStepContent = (stepIndex) => {
-		const { activeStep, currentSeason, selectedSeason, seasons, selectedProject, projects, members, title, description } = this.state;
+		const { activeStep, currentSeason, selectedSeason, seasons, selectedProject, projects, members, title, description, createUserDialogOpen } = this.state;
 
 		switch (stepIndex) {
 			case 0:
@@ -208,8 +226,12 @@ export default class CreateWorkinghour extends React.Component {
 				);
 			case 2:
 				return (
-						<div style={{padding:15}}>
+						<div style={{padding:15, position:'relative',}}>
+							<Button fab color="accent" aria-label="add" style={{position:'absolute', top: 180, right:35, zIndex:1000}} onClick={()=>{this.setState({createUserDialogOpen: true,})}}>
+								<AddIcon />
+						  	</Button>
 							<UserPicker users={members} onChange={this.handleWorkinghourUpdate}/>
+							<CreateUserDialog open={createUserDialogOpen} onRequestCloseCanceled={this.handleCreateUserCloseCanceled} onRequestCloseCreated={this.handleCreateUserCloseCreated} seasons={seasons} currentSeason={currentSeason} />
 						</div>
 				);
 			case 3:

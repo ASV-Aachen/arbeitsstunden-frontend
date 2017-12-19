@@ -81,7 +81,7 @@ export default class UserListPage extends React.Component {
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				<Button fab color="accent" aria-label="add" style={{position:'absolute',right:0}} onClick={this.handleClickAdd}>
+				<Button fab color="accent" aria-label="add" style={{position:'absolute',right:0}} onClick={()=>{this.setState({createUserDialogOpen:true})}}>
 					<AddIcon />
 			  </Button>
 				Oder nur icon mit segelstatus/ oder ASV status

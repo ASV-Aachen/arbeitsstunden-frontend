@@ -1,3 +1,4 @@
+import Cookies from 'universal-cookie';
 import React from 'react';
 import PropTypes from 'prop-types';
 import request from 'superagent';
@@ -15,17 +16,34 @@ import Select from 'material-ui/Select';
 import { MenuItem } from 'material-ui/Menu';
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-import { CircularProgress } from 'material-ui/Progress';
+import { LinearProgress } from 'material-ui/Progress';
 
-export default class CreateUserPage extends React.Component {
+import { Config } from '../../../config.js';
+
+import SeasonPicker from '../SeasonPicker.jsx';
+
+export default class CreateUserDialog extends React.Component {
 	static propTypes = {
 		onRequestCloseCanceled: PropTypes.func.isRequired,
 		onRequestCloseCreated: PropTypes.func.isRequired,
 	};
 
-	state = {
-		status: 'PROSPECT'
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			status: 'PROSPECT',
+			loading: false,
+			selectedSeason: -1,
+		};
 	};
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			selectedSeason: nextProps.currentSeason,
+		});
+	};	
+
 
 	requestCloseCanceled = () => {
 		this.props.onRequestCloseCanceled();
@@ -59,40 +77,52 @@ export default class CreateUserPage extends React.Component {
 	}
 
 	handleCreateUser = () => {
-
 		const requiredFields = [ 'firstname', 'lastname', 'email' ]
 		var validated = this.validate(requiredFields, this.state);
 		this.setState({errors:validated});
 
 		if (Object.keys(validated).length == 0) {
-			const {firstname, lastname, email, status} = this.state;
+			const {firstname, lastname, email, status, selectedSeason} = this.state;
 			var userData = {
 				firstName: firstname,
 				lastName: lastname,
-				email: email
+				email: email,
+				firstSeason: selectedSeason,
+				status: status,
 			};
-			this.createUser(userData);
+			this.createMember(userData);
 		}
 	};
 
-	createUser = (user) => {
-		const endpoint = 'http://localhost:8081/api/users/create';
+	createMember = (member) => {
+		if ( this.state.loading ) {
+			return;
+		}
+		this.setState({loading: true});
 
+		const endpoint = Config.baseurl + Config.endpoints.memberCreate;
+		const cookies = new Cookies();
+		let user = cookies.get('username');
+		let pass = cookies.get('password');
 		request.post(endpoint)
-			.send(user)
+			.auth(user, pass)
+			.send(member)
 			.set('Content-Type', 'application/json')
 			.then(success => {
 
-				var user = success.body;
-				this.props.onRequestCloseCreated(user);
+				this.props.onRequestCloseCreated();
 
+				this.setState({loading: false,});
 			}, failure => {
-
 				if (failure.status == 400) {
 					var response = failure.response.body;
-					this.setState({errors:{[response.field]:response.message}});
+					this.setState({
+						loading: false, 
+						errors:{[response.field]:response.message}}
+					);
 				} else {
-					console.error("Error: getting projects (Response: ", failure.status, ")", failure);
+					console.error("Error: creating member (Response: ", failure.status, ")", failure);
+					this.setState({loading: false,});
 				}
 			});
 	};
@@ -114,9 +144,15 @@ export default class CreateUserPage extends React.Component {
 
 	};
 
+	handleSeasonChanged = (newSelectedSeason) => {
+		this.setState({
+			selectedSeason: newSelectedSeason
+		});
+	}
+
 	render() {
-		const { open } = this.props
-		const { status, errors } = this.state
+		const { open, seasons, currentSeason } = this.props;
+		const { status, errors, loading, selectedSeason } = this.state;
 
 		return (
 			<Dialog onRequestClose={this.requestCloseCanceled} open={open}>
@@ -128,6 +164,7 @@ export default class CreateUserPage extends React.Component {
 						</Typography>
 
 					</Toolbar>
+					{ loading && <LinearProgress /> }
 				</AppBar>
 
 				<div style={{padding: 24}}>
@@ -155,9 +192,9 @@ export default class CreateUserPage extends React.Component {
 							</FormControl>
 						</Grid>
 						<Grid item xs={12} sm={12}>
-							<CircularProgress
-								style={{position:'absolute', height:40, width:40, left:-20, marginLeft:'50%', zIndex: 10}}
-							/>
+							<SeasonPicker seasons={seasons} selected={selectedSeason} current={currentSeason} onChange={this.handleSeasonChanged}/>
+						</Grid>
+						<Grid item xs={12} sm={12}>
 							<Button raised onClick={this.handleCreateUser} style={{marginLeft:'auto', marginRight:'auto', display:'block'}}>
 								Mitglied anlegen
 							</Button>
