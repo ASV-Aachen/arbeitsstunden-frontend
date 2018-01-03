@@ -1,9 +1,11 @@
 
 export const Config = {
+	//baseurl: 'https://workinghoursbackend.ralf-bettermann.de',
 	baseurl: 'http://localhost:8081',
 	endpoints:  {
 		login: '/api/session',
 		members: '/api/members/',
+		memberCreate: '/api/members/create',
 		seasons: '/api/seasons',
 		seasonNext: '/api/seasons/next',
 		projects: '/api/projects/',

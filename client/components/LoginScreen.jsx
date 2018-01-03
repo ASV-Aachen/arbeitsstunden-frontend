@@ -36,7 +36,7 @@ export default class LoginScreen extends React.Component {
 				const session = success.body;
 				const cookies = new Cookies();
 				cookies.set('token', session.token, { path: '/' });
-
+				cookies.set('role', session.role);
 				cookies.set('username', email);
 				cookies.set('password', password);
 

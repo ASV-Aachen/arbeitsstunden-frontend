@@ -118,6 +118,12 @@ export default class Header extends React.Component {
 		location.reload();
 	}
 
+	isTakel = () => {
+		const cookies = new Cookies();
+		let role = cookies.get('role');
+		return role == "ROLE_TAKEL";
+	};
+
 	render() {
 		const { availableSeasons, onSelectedSeason } = this.props;
 
@@ -149,11 +155,13 @@ export default class Header extends React.Component {
 								Mitglieder	
 							</Button>
 						</Link>
-						<Link to="/takel" style={{textDecoration:'none'}}>
-							<Button>
-								Takel	
-							</Button>
-						</Link>
+						{this.isTakel() && 
+								<Link to="/takel" style={{textDecoration:'none'}}>
+									<Button>
+										Takel	
+									</Button>
+								</Link>
+						}
 						<Button raised onClick={this.logout}>
 							Logout
 						</Button>
