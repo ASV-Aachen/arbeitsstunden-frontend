@@ -2,12 +2,16 @@ import React from 'react';
 import request from 'superagent';
 import Cookies from 'universal-cookie';
 
+import EditIcon from 'material-ui-icons/Edit';
 import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import { LinearProgress } from 'material-ui/Progress';
 import { Config } from '../../../config.js';
+
+import EditUserDialog from './EditUserDialog.jsx'
 
 export default class MemberDetails extends React.Component {
 	constructor(props) {
@@ -20,6 +24,7 @@ export default class MemberDetails extends React.Component {
 			seasonReduction: [],
 			intervals: [],
 			loading: false,
+			editUserDialogOpen: false, 
 		};
 	};
 
@@ -94,6 +99,7 @@ export default class MemberDetails extends React.Component {
 			"PROSPECT":"Anwärter",
 			"ACTIVE": "Aktiv",
 			"INACTIVE": "Inaktiv",
+			"OLD_MAN": "Alter Herr",
 		}
 		if (map[status]) {
 			return map[status];
@@ -102,8 +108,20 @@ export default class MemberDetails extends React.Component {
 		} 
 	}
 
+	handleEditUserCloseCanceled = () => {
+		this.setState({
+			editUserDialogOpen:false,
+		});
+	};
+
+	handleEditUserCloseSaved = () => {
+		this.setState({
+			editUserDialogOpen:false,
+		});
+	}
+
 	render() {
-		const { loading, firstName, lastName, email, intervals } = this.state;
+		const { loading, firstName, lastName, email, intervals, editUserDialogOpen } = this.state;
 		return (
 			<Paper style={{height:300}}> 
 				<AppBar position='static'>
@@ -114,7 +132,11 @@ export default class MemberDetails extends React.Component {
 					</Toolbar>
 					{loading && <LinearProgress /> }
 				</AppBar>
-				<div style={{padding:15}}>
+				<div style={{padding:15, position: 'relative'}}>
+					<Button fab aria-label="edit" style={{position:'absolute', top: 15, right:15, zIndex:1000}} onClick={()=>{this.setState({editUserDialogOpen: true,})}}>
+						<EditIcon />
+					</Button>
+
 					<Typography paragraph>{ firstName } { lastName }</Typography>
 					<Typography paragraph>{ email }</Typography>
 					<Typography>
@@ -131,6 +153,8 @@ export default class MemberDetails extends React.Component {
 
 					}) }
 					</Typography>
+
+					<EditUserDialog open={editUserDialogOpen} onRequestCloseCanceled={this.handleEditUserCloseCanceled} onRequestCloseSaved={this.handleEditUserCloseSaved} />
 				</div>
 			</Paper>
 		);

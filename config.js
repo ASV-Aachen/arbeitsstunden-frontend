@@ -6,6 +6,7 @@ export const Config = {
 		login: '/api/session',
 		members: '/api/members/',
 		memberCreate: '/api/members/create',
+		memberUpdate: '/api/members/update',
 		seasons: '/api/seasons',
 		seasonNext: '/api/seasons/next',
 		projects: '/api/projects/',
