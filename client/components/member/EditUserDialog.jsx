@@ -12,6 +12,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import { LinearProgress } from 'material-ui/Progress';
+import Snackbar from 'material-ui/Snackbar';
 
 import { Config } from '../../../config.js';
 
@@ -26,6 +27,7 @@ export default class EditUserDialog extends React.Component {
 
 		this.state = {
 			loading: false,	
+			savedSnackbarOpen: false,
 		};
 	};
 
@@ -114,18 +116,31 @@ export default class EditUserDialog extends React.Component {
 			.then(success => {
 				this.props.onRequestCloseSaved();
 
-				this.setState({loading: false,});
+				const cookies = new Cookies();
+				cookies.set('password', member.newPassword);
+
+				this.setState({
+					loading: false,
+					savedSnackbarOpen: true,
+				});
 			}, failure => {
-					console.error("Error: creating member (Response: ", failure.status, ")", failure);
+					console.error("Error: updating member (Response: ", failure.status, ")", failure);
 					this.setState({loading: false,});
 			});
 	};
 
+	handleRequestClose = () => {
+		this.setState({ 
+			savedSnackbarOpen: false,
+		});
+	};
+
 	render() {
 		const { open } = this.props;
-		const { loading, errors } = this.state;
+		const { loading, errors, savedSnackbarOpen } = this.state;
 
 		return (
+			<span>
 			<Dialog onRequestClose={this.requestCloseCanceled} open={open}>
 
 				<AppBar position='static'>
@@ -157,6 +172,13 @@ export default class EditUserDialog extends React.Component {
 					</Grid>
 				</div>
 			</Dialog>
+			<Snackbar
+			  anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+			  open={savedSnackbarOpen}
+			  onRequestClose={this.handleRequestClose}
+			  message={<span>Daten wurden erfolgreich gespeichert.</span>}
+			/>
+			</span>
 		);
 	}
 }
