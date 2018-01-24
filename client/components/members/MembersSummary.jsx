@@ -68,8 +68,6 @@ export default class MembersSummary extends React.Component {
 					Gesamt geleistete Arbeitstunden: {Math.ceil(workedMinutesTotal/30)/2} <br /><br />
 					#wie viele duerfen segeln: {numMembersSailingAllowed} <br /><br />
 					#wie viele haben segelverbot: {numMembersSailingNotAllowed}<br /><br />
-					Arbeitstundenkoenig: {kingFirstName} {kingLastName}  {Math.ceil(kingMinutes/30)/2}  <br /><br />
-
 				</div>
 			</Paper>
 		);

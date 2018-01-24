@@ -114,7 +114,11 @@ class TakelHeader extends React.Component {
 export default class Header extends React.Component {
 	logout = () => {
 		const cookies = new Cookies();
-		cookies.remove('token');
+		cookies.remove('token', { path: '/' });
+		cookies.remove('role', { path: '/' });
+		cookies.remove('username', { path: '/' });
+		cookies.remove('password', { path: '/' });
+
 		location.reload();
 	}
 

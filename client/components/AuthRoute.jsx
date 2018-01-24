@@ -7,7 +7,7 @@ import LoginScreen from './LoginScreen.jsx'
 //Mock of an Auth method, can be replaced with an async call to the backend. Must return true or false
 const isAuthenticated = () => {
 	const cookies = new Cookies();
-	let session = cookies.get('token');
+	let session = cookies.get('token', { path: '/' });
 	return session;
 };
 
