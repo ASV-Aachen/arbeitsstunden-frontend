@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Toolbar from 'material-ui/Toolbar';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
+import Typography from 'material-ui/Typography';
 
 import MoreHoriz from 'material-ui-icons/MoreHoriz';
 
@@ -43,6 +44,7 @@ class EnhancedTableHead extends React.Component {
 						);
 					}, this)}
 					<TableCell>
+						<span style={{float:'right'}}>Details</span>	
 					</TableCell>
 				</TableRow>
 												
