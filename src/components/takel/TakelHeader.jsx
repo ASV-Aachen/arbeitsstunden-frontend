@@ -23,12 +23,14 @@ export default class TakelHeader extends React.Component {
 		const SaisonsHeader = withTitle("Saisonverwaltung");
 		const WorkinghoursHeader = withTitle("Arbeitsstunden");
 		const DashboardHeader = withTitle("Dashboard");
+		const UsersHeader = withTitle("Benutzerverwaltung");
 
 		return (
 			<div>
 				<AuthRoute exact path="/takel/dashboard" component={DashboardHeader} />
 				<AuthRoute exact path="/takel/seasons" component={SaisonsHeader} />
 				<AuthRoute exact path="/takel/hours" component={WorkinghoursHeader} />
+				<AuthRoute exact path="/takel/users" component={UsersHeader} />
 			</div>
 		);
 	}

@@ -22,6 +22,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import WorkIcon from '@material-ui/icons/Work';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
 
 import TakelHeader from './TakelHeader.jsx';
 
@@ -29,6 +30,7 @@ import TakelHeader from './TakelHeader.jsx';
 import DashboardScreen from './dashboard/DashboardScreen.jsx';
 import SeasonsScreen from './seasons/SeasonsScreen.jsx';
 import WorkinghoursScreen from './workinghours/WorkinghoursScreen.jsx';
+import UsersScreen from './users/UsersScreen.jsx';
 
 const drawerWidth = 240;
 
@@ -122,6 +124,14 @@ export const mailFolderListItems = (
 		  <ListItemText primary="Arbeitsstunden" />
 		</ListItem>
 	</Link>
+	<Link to={"/takel/users"} style={{textDecoration:'none'}}>
+		<ListItem button>
+		  <ListItemIcon>
+			<AccessibilityIcon />
+		  </ListItemIcon>
+		  <ListItemText primary="Benutzerverwaltung" />
+		</ListItem>
+	</Link>
   </div>
 );
 
@@ -182,6 +192,7 @@ class MiniDrawer extends React.Component {
 				<AuthRoute exact path="/takel/dashboard" component={DashboardScreen} />
 				<AuthRoute exact path="/takel/seasons" component={SeasonsScreen} />
 				<AuthRoute exact path="/takel/hours" component={WorkinghoursScreen} />
+				<AuthRoute exact path="/takel/users" component={UsersScreen} />
 			</div>
 
         </main>
