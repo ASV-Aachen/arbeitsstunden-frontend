@@ -98,7 +98,7 @@ class EnhancedTable extends React.Component {
       selected: [],
       data: this.props.members.sort((a, b) => (a.lastName < b.lastName ? -1 : 1)),
       page: 0,
-      rowsPerPage: 25,
+      rowsPerPage: 10,
 	  selectedMember: {},
 	  editUserDialogOpen: false,
     };
