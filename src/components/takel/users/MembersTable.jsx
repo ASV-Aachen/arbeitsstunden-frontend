@@ -24,22 +24,6 @@ const columnData = [
   { id: 'email', numeric: false, disablePadding: true, label: 'Email' },
 ];
 
-//export default class MemberList extends Component {
-//	static propTypes = {
-//		members: PropTypes.array.isRequired,
-//	};
-//
-//	render() {
-//		const { members } = this.props;
-//		return (
-//			<div>
-//				<Typography paragraph>Memberstable</Typography>
-//			</div>
-//		);
-//	}
-//}
-
-
 class EnhancedTableHead extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
@@ -97,7 +81,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
   },
   table: {
-    minWidth: 1020,
+    minWidth: 550,
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -221,12 +205,12 @@ class EnhancedTable extends React.Component {
                     <TableCell component="th" scope="row" padding="none">
                       {n.email}
                     </TableCell>
-					<TableCell>
+					<TableCell component="th" scope="row" padding="none">
 						<Link to={"/member/"+n.id} style={{textDecoration:'none', color: 'black'}}>
 							<FaceIcon />
 						</Link>
 					</TableCell>
-					<TableCell>
+					<TableCell component="th" scope="row" padding="none">
 						<Button onClick={()=>{this.setState({editUserDialogOpen: true, selectedMember: n})}}>
 							<EditIcon />
 						</Button>
@@ -246,7 +230,7 @@ class EnhancedTable extends React.Component {
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
-		  rowsPerPageOptions={[10,25,50, 100]}
+		  rowsPerPageOptions={[10, 25, 50, 100]}
 		  labelRowsPerPage={'Einträge pro Seite'}
 		  labelDisplayedRows={({from, to, count}) => {return from+" - "+to+" von "+count}}
           page={page}
