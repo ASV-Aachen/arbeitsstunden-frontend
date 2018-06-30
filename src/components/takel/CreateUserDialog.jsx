@@ -21,7 +21,6 @@ export default class CreateUserDialog extends React.Component {
 	static propTypes = {
 		open: PropTypes.bool.isRequired,
 		onRequestCloseCanceled: PropTypes.func.isRequired,
-		onRequestCloseCreated: PropTypes.func.isRequired,
 	};
 
 	constructor(props) {
@@ -85,39 +84,6 @@ export default class CreateUserDialog extends React.Component {
 		}
 	};
 
-	createMember = (member) => {
-		if ( this.state.loading ) {
-			return;
-		}
-		this.setState({loading: true});
-
-	//	const endpoint = Config.baseurl + Config.endpoints.memberCreate;
-	//	const cookies = new Cookies();
-	//	let user = cookies.get('username');
-	//	let pass = cookies.get('password');
-	//	request.post(endpoint)
-	//		.auth(user, pass)
-	//		.send(member)
-	//		.set('Content-Type', 'application/json')
-	//		.then(success => {
-
-	//			this.props.onRequestCloseCreated();
-
-	//			this.setState({loading: false,});
-	//		}, failure => {
-	//			if (failure.status == 400) {
-	//				var response = failure.response.body;
-	//				this.setState({
-	//					loading: false, 
-	//					errors:{[response.field]:response.message}}
-	//				);
-	//			} else {
-	//				console.error("Error: creating member (Response: ", failure.status, ")", failure);
-	//				this.setState({loading: false,});
-	//			}
-	//		});
-	};
-
 	renderTextField = ({name, text, errors}) => {
 
 		var error = '';
@@ -150,7 +116,7 @@ export default class CreateUserDialog extends React.Component {
 
 				<AppBar position='static'>
 					<Toolbar>
-						<Typography type='title' color='inherit' style={{flex:'1'}}>
+						<Typography variant='title' color='inherit' style={{flex:'1'}}>
 							<span>Mitglied anlegen</span>
 						</Typography>
 

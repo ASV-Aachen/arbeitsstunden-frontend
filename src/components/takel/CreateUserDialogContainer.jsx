@@ -1,25 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { postAuthorized } from '../HOC';
+import { postAuthorized, getAuthorized } from '../HOC';
 import API from '../../constants.js'
 
 import CreateUserDialog from './CreateUserDialog.jsx';
 
 export default class CreateUserDialogContainer extends React.Component {
 	static propTypes = {
-		seasons: PropTypes.array.isRequired,
-		currentSeason: PropTypes.number.isRequired,
-		onUserCreated: PropTypes.func.isRequired,
+		userCreated: PropTypes.func.isRequired,
+		userCanceled: PropTypes.func.isRequired,
+		open: PropTypes.bool.isRequired,
 	};
 
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			open: true,
+			seasons: [],
+			currentSeason: -1,
+			loading: false,
 		};
 	};
+
+	componentDidMount(){
+		this.loadSeasons();
+	}
+
+	loadSeasons = () => {
+		if (!this.state.loading) {
+			this.setState({
+				loading: true,
+			});
+
+			getAuthorized(API.seasons, 
+				(response) => {
+					this.setState({
+						loading: false,
+					});
+					const body = response.body;
+
+					this.setState({
+						currentSeason: body.activeSeason,
+						seasons: body.seasons
+					});
+				}, 
+				(response) => {
+					this.setState({
+						loading: false,
+					});
+					if (response.status === 401) {
+						this.setState({
+							unauthorizedSnackbarOpen: true,
+						});	
+					} else {
+						this.setState({
+							modalOpen: true,
+						});
+						console.error("Server replied: " + response);
+					}
+				}
+			);
+		}
+	}
 
 	handleCreateMember = (firstName, lastName, email, firstSeason, status) => {
 			var userData = {
@@ -45,7 +88,7 @@ export default class CreateUserDialogContainer extends React.Component {
 						loading: false,
 					});
 
-					this.props.onUserCreated();
+					this.props.userCreated();
 
 					this.setState({
 						open: false,
@@ -70,31 +113,17 @@ export default class CreateUserDialogContainer extends React.Component {
 		}
 	} 
 
-	handleCreateUserCloseCanceled = () => {
-		this.setState({
-			open: false,
-		});
-	};
-
-	handleCreateUserCloseCreated = () => {
-		//this.loadMembers();
-		this.setState({
-			open: false,
-		});
-	}
-
 	render() {
-		const { open } = this.state;
-		const {seasons, currentSeason} = this.props;
+		const { seasons, currentSeason } = this.state;
+		const { open } = this.props;
 
 		return (
 				<CreateUserDialog 
-			open={open} 
-			onRequestCloseCanceled={this.handleCreateUserCloseCanceled} 
-			onRequestCloseCreated={this.handleCreateUserCloseCreated} 
-			seasons={seasons} 
-			currentSeason={currentSeason} 
-			onCreateMember={this.handleCreateMember}
+					open={open} 
+					onRequestCloseCanceled={this.props.userCanceled} 
+					seasons={seasons} 
+					currentSeason={currentSeason} 
+					onCreateMember={this.handleCreateMember}
 			/>
 		);
 	}

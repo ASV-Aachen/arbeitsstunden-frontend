@@ -70,6 +70,19 @@ export default class CreateWorkinghour extends Component {
 		});
 	}
 
+	handleUserCreated = () => {
+		this.setState({
+			createUserDialogOpen: false,
+		});	
+		this.props.onUserCreated();
+	}
+
+	handleUserCanceled = () => {
+		this.setState({
+			createUserDialogOpen: false,
+		});	
+	}
+
 	getStepContent = (stepIndex) => {
 		const { seasons, projects, activeSeason, users } = this.props;
 
@@ -119,7 +132,7 @@ export default class CreateWorkinghour extends Component {
 						  	</Button>
 							<UserPicker users={users} onChange={this.handleWorkinghourUpdate}/>
 
-					{ createUserDialogOpen &&	<CreateUserDialogContainer open={createUserDialogOpen} seasons={seasons} currentSeason={activeSeason} onUserCreated={this.props.onUserCreated} /> } 
+							<CreateUserDialogContainer open={createUserDialogOpen} userCreated={this.handleUserCreated} userCanceled={this.handleUserCanceled} />
 						</div>
 				);
 
