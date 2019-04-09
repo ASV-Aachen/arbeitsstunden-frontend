@@ -7,7 +7,7 @@ export default class DashboardScreen extends Component {
 	render() {
 		return (
 			<div>
-				Coming soon... :-)
+				Eine Idee, was hier interessant zu sehen wäre? Melde dich bei ralf.bettermann@rwth-aachen.de	
 			</div>
 		);
 	}

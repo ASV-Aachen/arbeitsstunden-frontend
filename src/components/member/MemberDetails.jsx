@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
+
+import MemberEditDialogContainer from './MemberEditDialogContainer.jsx';
 
 export default class MemberDetails extends Component {
 	static propTypes = {
@@ -10,6 +14,14 @@ export default class MemberDetails extends Component {
 		email: PropTypes.string.isRequired,
 		intervals: PropTypes.array.isRequired
 	};
+
+	constructor(props, context) {
+        super(props, context);
+
+        this.state = {
+    	  editUserDialogOpen: false,
+        };
+      }
 
 	toSeasonString = (year) => {
 		return year-1 + "/" + year
@@ -31,8 +43,13 @@ export default class MemberDetails extends Component {
 
 	render() {
 		const { firstName, lastName, email, intervals } = this.props;
+		const { editUserDialogOpen } = this.state;
 		return (
 			<div style={{height:240}}>
+
+                <Button fab="true" aria-label="edit" style={{position:'absolute', top: 15, right:15, zIndex:1000}} onClick={()=>{this.setState({editUserDialogOpen: true,})}}>
+                    <EditIcon />
+                </Button>
 
 				<Typography paragraph>{ firstName } { lastName }</Typography>
 				<Typography paragraph>{ email }</Typography>
@@ -50,7 +67,7 @@ export default class MemberDetails extends Component {
 
 					}) }
 					</Typography>
-
+                    <MemberEditDialogContainer open={editUserDialogOpen} handleClose={()=>this.setState({editUserDialogOpen: false})} />
 				</div>
 		);
 	}
