@@ -20,6 +20,7 @@ export default class MemberEditDialogContainer extends Component {
 		handleReductionChange: PropTypes.func.isRequired,
 		handleCancel: PropTypes.func.isRequired,
 		handleEditUser: PropTypes.func.isRequired,
+		handlePasswordReset: PropTypes.func.isRequired,
 	};
 
 	render() {
@@ -27,6 +28,9 @@ export default class MemberEditDialogContainer extends Component {
 
 		return (
 			<div>
+			        <Button variant='raised' onClick={this.props.handlePasswordReset}>
+                        Passwort Reset
+                    </Button>
 					<Table>
 						<TableHead>
 						  <TableRow>
@@ -62,7 +66,7 @@ export default class MemberEditDialogContainer extends Component {
 					<Grid container style={{textAlign:'center', paddingTop:'20px', paddingBottom: '10px'}}>
 						<Grid item sm={6}>
 							<Button variant='raised' onClick={this.props.handleCancel}>
-								Abbrechen	
+								Abbrechen
 							</Button>
 						</Grid>
 						<Grid item sm={6}>

@@ -149,10 +149,51 @@ export default class MemberEditDialogContainer extends Component {
 	}
 
 	handleEditUser = () => {
-
 		this.postReductionsAndStatus(this.props.member.id, this.state.seasons);
-
 	}
+
+	handlePasswordReset = () => {
+	    console.log(this.props.member);
+	    this.postPasswordReset(this.props.member.id);
+	}
+
+	postPasswordReset = (memberId) => {
+    		if (memberId === undefined) {
+    			return;
+    		}
+
+    		if (!this.state.loading) {
+    			this.setState({
+    				loading: true,
+    			});
+
+    			postAuthorized(API.member + '/' + memberId + '/passwordReset',
+    				null,
+    				(response) => {
+    					this.setState({
+    						loading: false,
+    					});
+
+    					this.props.handleClose();
+    				},
+    				(response) => {
+    					this.setState({
+    						loading: false,
+    					});
+    					if (response.status === 401) {
+    						this.setState({
+    							snackbarOpen: true,
+    						});
+    					} else {
+    						this.setState({
+    							modalOpen: true,
+    						});
+    						console.error("Server replied: " + response);
+    					}
+    				}
+    			);
+    		}
+    	}
 
 	
 
@@ -181,7 +222,8 @@ export default class MemberEditDialogContainer extends Component {
 					handleStatusChange={this.handleStatusChange}	
 					handleReductionChange={this.handleReductionChange}	
 					handleCancel={this.handleCancel} 
-					handleEditUser={this.handleEditUser} 
+					handleEditUser={this.handleEditUser}
+					handlePasswordReset={this.handlePasswordReset}
 
 					seasons={seasons}
 				/>	
