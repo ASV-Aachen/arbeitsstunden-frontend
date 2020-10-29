@@ -30,7 +30,7 @@ export default class Header extends React.Component {
 						</Button>
 					</Link>
 					{isTakel && 
-						<Link to="/takel/dashboard" style={{textDecoration:'none'}}>
+						<Link to="/takel/hours" style={{textDecoration:'none'}}>
 							<Button>
 								Takel	
 							</Button>
