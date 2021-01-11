@@ -27,7 +27,6 @@ export default class CreateSeasonContainer extends Component {
 
 	componentDidMount(){
 		this.loadSeasons();
-		this.loadProjects();
 		this.loadUsers();
 	}
 
@@ -48,6 +47,8 @@ export default class CreateSeasonContainer extends Component {
 						activeSeason: body.activeSeason,
 						seasons: body.seasons
 					});
+
+					this.loadProjects(body.activeSeason);
 				}, 
 				(response) => {
 					this.setState({
@@ -68,7 +69,7 @@ export default class CreateSeasonContainer extends Component {
 		}
 	}
 
-	loadProjects = () => {
+	loadProjects = (activeSeason) => {
 		if (!this.state.loading) {
 			this.setState({
 				loading: true,
@@ -81,8 +82,16 @@ export default class CreateSeasonContainer extends Component {
 					});
 					const body = response.body;
 
+					const filtered = body.filter((item) => {
+						if (!item.lastSeason) {
+							return true
+						} else {
+							return false 
+						}
+					});
+
 					this.setState({
-						projects: body
+						projects: filtered
 					});
 				}, 
 				(response) => {
