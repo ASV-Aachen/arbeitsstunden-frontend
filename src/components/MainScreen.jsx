@@ -49,13 +49,13 @@ export default class MainScreen extends Component {
 					<HeaderContainer seasons={seasons} selectedSeason={selectedSeason} seasonChanged={this.onSeasonChanged} />
 				</Grid>
 				<Grid container style={{margin:17, marginTop:20}}>
-					<AuthRoute exact path="/member/:memberId?" component={ MemberScreen } />
-					<AuthRoute exact path="/members/:season?" render={
+					<AuthRoute exact path="/arbeitsstunden/member/:memberId?" component={ MemberScreen } />
+					<AuthRoute exact path="/arbeitsstunden/members/:season?" render={
 						(props) => {
 							return(<MembersScreen onSeasonsLoaded={this.onSeasonsLoaded('members')} season={selectedSeason} />);
 						}} />
-					<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ ProjectScreen } />
-					<AuthRoute exact path="/projects/:season?" render={
+					<AuthRoute exact path="/arbeitsstunden/project/:projectName/:season/:projectId" component={ ProjectScreen } />
+					<AuthRoute exact path="/arbeitsstunden/projects/:season?" render={
 						(props) => {
 							return(<ProjectsScreen onSeasonsLoaded={this.onSeasonsLoaded('projects')} season={selectedSeason}  {...props} />);
 						}} />
