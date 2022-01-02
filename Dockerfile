@@ -3,7 +3,7 @@ FROM node:latest AS builder
 ENV NODE_ENV production
 
 COPY package*.json /opt/app-root/src/
-RUN npm install
+RUN yarn install
 
 COPY . /opt/app-root/src/
 RUN npm run build
