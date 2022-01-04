@@ -24,7 +24,7 @@ export default class App extends Component {
 			<HashRouter>
 				<Switch>
 					<AuthRoute exact path="/arbeitsstunden/login" component={ LoginScreen } />
-					<AuthRoute path="/" component={ MainScreen } />
+					<AuthRoute path="/arbeitsstunden" component={ MainScreen } />
 				</Switch>
 			</HashRouter>
 		</MuiThemeProvider>
