@@ -95,16 +95,16 @@ export default class HeaderContainer extends React.Component {
 
 		return (
 			<Header isTakel={this.isTakel()} logout={this.logout}>
-				<AuthRoute exact path="/member/:memberId?" component={MemberHeader} />
-				<AuthRoute exact path="/members/:season?" render={
+				<AuthRoute exact path="/arbeitsstunden/member/:memberId?" component={MemberHeader} />
+				<AuthRoute exact path="/arbeitsstunden/members/:season?" render={
 					(props) => { 
 						return (<MembersHeader seasons={seasons} selectedSeason={selectedSeason} seasonChanged={seasonChanged('members')} {...props} />);
 					}} />
-				<AuthRoute exact path="/projects/:season?" render={
+				<AuthRoute exact path="/arbeitsstunden/projects/:season?" render={
 					(props) => {
 						return(<ProjectsHeader seasons={seasons} selectedSeason={selectedSeason} seasonChanged={seasonChanged('projects')} {...props} />);
 					}} />
-				<AuthRoute exact path="/project/:projectName/:season/:projectId" component={ProjectHeader}/>
+				<AuthRoute exact path="/arbeitsstunden/project/:projectName/:season/:projectId" component={ProjectHeader}/>
 				<AuthRoute path="/takel" component={TakelHeader} />
 			</Header>
 		);

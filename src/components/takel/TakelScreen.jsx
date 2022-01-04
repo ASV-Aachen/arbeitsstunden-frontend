@@ -189,10 +189,10 @@ class MiniDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 			<div>
-				<AuthRoute exact path="/takel/dashboard" component={DashboardScreen} />
-				<AuthRoute exact path="/takel/seasons" component={SeasonsScreen} />
-				<AuthRoute exact path="/takel/hours" component={WorkinghoursScreen} />
-				<AuthRoute exact path="/takel/users" component={UsersScreen} />
+				<AuthRoute exact path="/arbeitsstunden/takel/dashboard" component={DashboardScreen} />
+				<AuthRoute exact path="/arbeitsstunden/takel/seasons" component={SeasonsScreen} />
+				<AuthRoute exact path="/arbeitsstunden/takel/hours" component={WorkinghoursScreen} />
+				<AuthRoute exact path="/arbeitsstunden/takel/users" component={UsersScreen} />
 			</div>
 
         </main>
