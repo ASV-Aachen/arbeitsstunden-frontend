@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import LoginScreen from './login/LoginScreen.jsx'
+import keycloak from '../index.js';
 
 const isAuthenticated = () => {
 	const cookies = new Cookies();
-	let session = cookies.get('token', { path: '/' });
-	return session;
+	if (keycloak.authenticated){
+		let session = cookies.get('KEYCLOAK_SESSION', { path: '/' });
+		return session;
+	}
+	return null
 };
 
 const PRIVATE_ROOT = '/member';
