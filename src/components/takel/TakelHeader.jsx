@@ -27,10 +27,10 @@ export default class TakelHeader extends React.Component {
 
 		return (
 			<div>
-				<AuthRoute exact path="/arbeitsstunden/takel/dashboard" component={DashboardHeader} />
-				<AuthRoute exact path="/arbeitsstunden/takel/seasons" component={SaisonsHeader} />
-				<AuthRoute exact path="/arbeitsstunden/takel/hours" component={WorkinghoursHeader} />
-				<AuthRoute exact path="/arbeitsstunden/takel/users" component={UsersHeader} />
+				<AuthRoute exact path="/takel/dashboard" component={DashboardHeader} />
+				<AuthRoute exact path="/takel/seasons" component={SaisonsHeader} />
+				<AuthRoute exact path="/takel/hours" component={WorkinghoursHeader} />
+				<AuthRoute exact path="/takel/users" component={UsersHeader} />
 			</div>
 		);
 	}
