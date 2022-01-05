@@ -4,9 +4,7 @@ import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import Keycloak from 'keycloak-js'
-
-// ReactDOM.render(<App />, document.getElementById('root'));
-// registerServiceWorker();
+import Cookies from 'universal-cookie';
 
 //keycloak init options
 let initOptions = {
@@ -33,27 +31,19 @@ keycloak.init({ onLoad: initOptions.onLoad })
         ReactDOM.render(<App />, document.getElementById('root'));
         registerServiceWorker();
 
-        // localStorage.setItem("react-token", keycloak.token);
-        // localStorage.setItem("react-refresh-token", keycloak.refreshToken);
-
-        setTimeout(() => {
-            keycloak.updateToken(70)
-                .then((refreshed) => {
-                    if (refreshed) {
-                        console.debug('Token refreshed' + refreshed);
-                    } else {
-                        console.warn('Token not refreshed, valid for '
-                            + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-                    }
-            }).catch(() => {
-                console.error('Failed to refresh token');
-            });
-
-
-        }, 60000)
-
 }).catch(() => {
     console.error("Authenticated Failed");
 });
+
+const cookies = new Cookies();
+cookies.set('token', keycloak.token, { path: '/' });
+cookies.set('memberId', keycloak.tokenParsed.email, { path: '/' });
+cookies.set('username', "username", { path: '/' });
+cookies.set('password', "password", { path: '/' });
+
+cookies.set('role', response.body.role, { path: '/' });
+
+ReactDOM.render(<App />, document.getElementById('root'));
+registerServiceWorker();
 
 export default keycloak;
