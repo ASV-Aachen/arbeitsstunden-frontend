@@ -2,7 +2,7 @@
   "name": "asv-workinghours-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://www.asv.rwth-aachen.de/intern/arbeitsstunden/",
+  "homepage": "/arbeitsstunden/",
   "dependencies": {
     "@material-ui/core": "^1.0.0",
     "@material-ui/icons": "^1.0.0",

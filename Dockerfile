@@ -2,22 +2,21 @@ FROM node:latest AS builder
 
 ENV NODE_ENV production
 
-COPY package*.json /opt/app-root/src/
-WORKDIR /opt/app-root/src/
+COPY package*.json yarn.lock ./
+RUN yarn install && mkdir /react-ui && mv ./node_modules ./react-ui
 
-RUN yarn install
-# RUN npm install
+WORKDIR /react-ui
 
 COPY . .
-RUN npm run build
+RUN yarn build
 
 
-FROM nginx:latest
+FROM nginx:alpine
 
-COPY --from=builder /opt/app-root/src/build/ .
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+RUN rm -rf /usr/share/nginx/html/*
 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
+COPY --from=builder /react-ui/build /usr/share/nginx/html/arbeitsstunden
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
