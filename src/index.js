@@ -41,7 +41,11 @@ cookies.set('memberId', keycloak.tokenParsed.email, { path: '/' });
 cookies.set('username', "username", { path: '/' });
 cookies.set('password', "password", { path: '/' });
 
-cookies.set('role', response.body.role, { path: '/' });
+if (keycloak.tokenParsed.realm_access.roles.includes('Takelmeister')){
+    cookies.set('role', "ROLE_TAKEL", { path: '/' });
+} else {
+    cookies.set('role', "ROLE_USER", { path: '/' });
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
