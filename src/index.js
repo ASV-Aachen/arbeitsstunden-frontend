@@ -5,6 +5,7 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import Keycloak from 'keycloak-js'
 import Cookies from 'universal-cookie';
+import LoginContainer from './components/login/LoginContainer';
 
 //keycloak init options
 let initOptions = {
@@ -30,22 +31,23 @@ keycloak.init({ onLoad: initOptions.onLoad })
         //React Render
         ReactDOM.render(<App />, document.getElementById('root'));
         registerServiceWorker();
+    }).then(() => {
+        const cookies = new Cookies();
+        cookies.set('token', keycloak.token, { path: '/' });
+        cookies.set('username', keycloak.tokenParsed.email, { path: '/' });
 
-}).catch(() => {
+        if (keycloak.tokenParsed.realm_access.roles.includes('Takelmeister')){
+            cookies.set('role', "ROLE_TAKEL", { path: '/' });
+        } else {
+            cookies.set('role', "ROLE_USER", { path: '/' });
+        }
+    })
+.catch(() => {
     console.error("Authenticated Failed");
 });
-
-const cookies = new Cookies();
-cookies.set('token', keycloak.token, { path: '/' });
-cookies.set('memberId', keycloak.tokenParsed.email, { path: '/' });
-cookies.set('username', "username", { path: '/' });
-cookies.set('password', "password", { path: '/' });
-
-if (keycloak.tokenParsed.realm_access.roles.includes('Takelmeister')){
-    cookies.set('role', "ROLE_TAKEL", { path: '/' });
-} else {
-    cookies.set('role', "ROLE_USER", { path: '/' });
-}
+console.info(keycloak)
+        
+LoginContainer.handleLoginUser(keycloak.tokenParsed.email, 'asv')
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
