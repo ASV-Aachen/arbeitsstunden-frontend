@@ -17,9 +17,14 @@ export const getCurrentMemberId = () => {
 }
 
 export const postUnauthorized = (endpoint, onSuccess, onFailure, username, password) => {
+	const cookies = new Cookies();
 	request.post(endpoint)
 		.auth(username, password)
 		.set('Content-Type', 'application/json')
+		.set('Cookie', [
+			'username=' + cookies.get('username'),
+			'token=' + cookies.get('token')
+		])
 		.then(success => {
 			onSuccess(success);
 		}, failure => {
@@ -35,6 +40,10 @@ export const getAuthorized = (endpoint, onSuccess, onFailure) => {
 	request.get(endpoint)
 		.auth(username, password)
 		.set('Content-Type', 'application/json')
+		.set('Cookie', [
+			'username=' + cookies.get('username'),
+			'token=' + cookies.get('token')
+		])
 		.then(success => {
 			onSuccess(success);
 		}, failure => {
@@ -51,6 +60,10 @@ export const postAuthorized = (endpoint, body, onSuccess, onFailure) => {
 		.send(body)
 		.auth(username, password)
 		.set('Content-Type', 'application/json')
+		.set('Cookie', [
+			'username=' + cookies.get('username'),
+			'token=' + cookies.get('token')
+		])
 		.then(success => {
 			onSuccess(success);
 		}, failure => {
