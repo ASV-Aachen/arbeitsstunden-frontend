@@ -27,7 +27,7 @@ export default class LoginContainer extends Component {
 			postUnauthorized(API.login, 
 				(response) => {
 					const cookies = new Cookies();
-					cookies.set('token', response.body.token, { path: '/' });
+					cookies.set('ArbeitsstundenDB_Token', response.body.token, { path: '/' });
 					cookies.set('role', response.body.role, { path: '/' });
 					cookies.set('memberId', response.body.memberId, { path: '/' });
 					cookies.set('username', username, { path: '/' });
