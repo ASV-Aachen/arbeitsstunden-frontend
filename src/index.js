@@ -5,9 +5,9 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import Keycloak from 'keycloak-js'
 import Cookies from 'universal-cookie';
-import LoginContainer from './components/login/LoginContainer';
+// import LoginContainer from './components/login/LoginContainer';
 
-import API from 'constants.js';
+import API from './constants.js';
 import { postUnauthorized } from 'HOC';
 
 //keycloak init options
