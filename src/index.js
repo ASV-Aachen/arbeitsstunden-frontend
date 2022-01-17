@@ -5,6 +5,7 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import Keycloak from 'keycloak-js'
 import Cookies from 'universal-cookie';
+import LoginContainer from './components/login/LoginContainer';
 
 
 //keycloak init options
@@ -42,6 +43,8 @@ keycloak.init({ onLoad: initOptions.onLoad })
         } else {
             cookies.set('role', "ROLE_USER", { path: '/' });
         }
+
+        LoginContainer.handleLoginUser(keycloak.tokenParsed.email, 'asv')
     })
 .catch(() => {
     console.error("Authenticated Failed");
