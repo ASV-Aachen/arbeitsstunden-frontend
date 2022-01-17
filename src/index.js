@@ -57,8 +57,8 @@ postUnauthorized(API.login,
         cookies.set('ArbeitsstundenDB_Token', response.body.token, { path: '/' });
         cookies.set('role', response.body.role, { path: '/' });
         cookies.set('memberId', response.body.memberId, { path: '/' });
-        cookies.set('username', username, { path: '/' });
-        cookies.set('password', password, { path: '/' });
+        cookies.set('username', keycloak.tokenParsed.email, { path: '/' });
+        cookies.set('password', 'asv', { path: '/' });
     }, 
     (response) => {
         if (response.status === 401) {
