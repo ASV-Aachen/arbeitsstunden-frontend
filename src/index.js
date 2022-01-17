@@ -5,7 +5,10 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import Keycloak from 'keycloak-js'
 import Cookies from 'universal-cookie';
-import LoginContainer from './components/login/LoginContainer';
+// import LoginContainer from './components/login/LoginContainer';
+
+import API from './constants.js';
+import { postUnauthorized } from './components/HOC';
 
 //keycloak init options
 let initOptions = {
@@ -47,7 +50,28 @@ keycloak.init({ onLoad: initOptions.onLoad })
 });
 console.info(keycloak)
         
-LoginContainer.handleLoginUser(keycloak.tokenParsed.email, 'asv')
+// LoginContainer.handleLoginUser(keycloak.tokenParsed.email, 'asv')
+postUnauthorized(API.login, 
+    (response) => {
+        const cookies = new Cookies();
+        cookies.set('ArbeitsstundenDB_Token', response.body.token, { path: '/' });
+        cookies.set('role', response.body.role, { path: '/' });
+        cookies.set('memberId', response.body.memberId, { path: '/' });
+        cookies.set('username', keycloak.tokenParsed.email, { path: '/' });
+        cookies.set('password', 'asv', { path: '/' });
+    }, 
+    (response) => {
+        if (response.status === 401) {
+            this.setState({
+                unauthorizedSnackbarOpen: true,
+            });	
+        } else {
+            console.error("Server replied: " + response);
+        }
+    }, 
+    keycloak.tokenParsed.email,
+    'asv'
+);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
