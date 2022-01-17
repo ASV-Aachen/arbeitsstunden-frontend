@@ -43,8 +43,25 @@ keycloak.init({ onLoad: initOptions.onLoad })
         } else {
             cookies.set('role', "ROLE_USER", { path: '/' });
         }
+    }).then(() => {
+        postUnauthorized(API.login, 
+            (response) => {
+                const cookies = new Cookies();
+                cookies.set('ArbeitsstundenDB_Token', response.body.token, { path: '/' });
+                cookies.set('role', response.body.role, { path: '/' });
+                cookies.set('memberId', response.body.memberId, { path: '/' });
 
-        LoginContainer.handleLoginUser(keycloak.tokenParsed.email, 'asv')
+            }, 
+            (response) => {
+                if (response.status === 401) {
+                    console.error("Server replied: " + response);
+                } else {
+                    console.error("Server replied: " + response);
+                }
+            }, 
+            keycloak.tokenParsed.email,
+            'asv'
+        );
     })
 .catch(() => {
     console.error("Authenticated Failed");
