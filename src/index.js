@@ -38,6 +38,7 @@ keycloak.init({ onLoad: initOptions.onLoad })
         const cookies = new Cookies();
         cookies.set('token', keycloak.token, { path: '/' });
         cookies.set('username', keycloak.tokenParsed.email, { path: '/' });
+        cookies.set('password', 'asv', { path: '/' });
 
         if (keycloak.tokenParsed.realm_access.roles.includes('Takelmeister')){
             cookies.set('role', "ROLE_TAKEL", { path: '/' });
@@ -49,29 +50,6 @@ keycloak.init({ onLoad: initOptions.onLoad })
     console.error("Authenticated Failed");
 });
 console.info(keycloak)
-        
-// LoginContainer.handleLoginUser(keycloak.tokenParsed.email, 'asv')
-postUnauthorized(API.login, 
-    (response) => {
-        const cookies = new Cookies();
-        cookies.set('ArbeitsstundenDB_Token', response.body.token, { path: '/' });
-        cookies.set('role', response.body.role, { path: '/' });
-        cookies.set('memberId', response.body.memberId, { path: '/' });
-        cookies.set('username', keycloak.tokenParsed.email, { path: '/' });
-        cookies.set('password', 'asv', { path: '/' });
-    }, 
-    (response) => {
-        if (response.status === 401) {
-            this.setState({
-                unauthorizedSnackbarOpen: true,
-            });	
-        } else {
-            console.error("Server replied: " + response);
-        }
-    }, 
-    keycloak.tokenParsed.email,
-    'asv'
-);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
