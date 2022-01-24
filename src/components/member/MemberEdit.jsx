@@ -30,26 +30,13 @@ export default class MemberEditWidget extends Component {
 			<div>
 
                     <Grid container spacing={24}>
-                        <Grid item xs={12} sm={12}>
-                            {this.renderTextField({name:'currentPassword', text:'Bisheriges Passwort', errors: errors})}
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            {this.renderTextField({name:'newPassword', text:'Neues Passwort', errors: errors})}
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            {this.renderTextField({name:'newPasswordRepeat', text:'Passwort Wiederholen', errors: errors})}
-                        </Grid>
+                        Um das Password zu ändern, nutze bitte Keycloak.
                     </Grid>
 
 					<Grid container style={{textAlign:'center', paddingTop:'20px', paddingBottom: '10px'}}>
 						<Grid item sm={6}>
 							<Button variant='raised' onClick={this.props.handleCancel}>
 								Abbrechen	
-							</Button>
-						</Grid>
-						<Grid item sm={6}>
-							<Button variant='raised' onClick={this.handleEdit}>
-								Passwort ändern
 							</Button>
 						</Grid>
 					</Grid>
