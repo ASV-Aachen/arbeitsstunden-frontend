@@ -36,9 +36,11 @@ export default class Header extends React.Component {
 							</Button>
 						</Link>
 					}
-					<Button variant="raised" onClick={logout}>
-						Logout
-					</Button>
+					<Link to={$REACT_APP_HOME_ADRESS}>
+						<Button variant="raised">
+							Home
+						</Button>
+					</Link>
 				</Toolbar>
 			</AppBar>
 		);
