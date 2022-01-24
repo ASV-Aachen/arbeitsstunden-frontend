@@ -36,11 +36,11 @@ export default class Header extends React.Component {
 							</Button>
 						</Link>
 					}
-					<Link to={process.env.REACT_APP_HOME_ADRESS}>
+					<a href={process.env.REACT_APP_HOME_ADRESS}>
 						<Button variant="raised">
 							Home
 						</Button>
-					</Link>
+					</a>
 				</Toolbar>
 			</AppBar>
 		);
