@@ -158,41 +158,7 @@ export default class MemberEditDialogContainer extends Component {
 	}
 
 	postPasswordReset = (memberId) => {
-    		if (memberId === undefined) {
-    			return;
-    		}
-
-    		if (!this.state.loading) {
-    			this.setState({
-    				loading: true,
-    			});
-
-    			postAuthorized(API.member + '/' + memberId + '/passwordReset',
-    				null,
-    				(response) => {
-    					this.setState({
-    						loading: false,
-    					});
-
-    					this.props.handleClose();
-    				},
-    				(response) => {
-    					this.setState({
-    						loading: false,
-    					});
-    					if (response.status === 401) {
-    						this.setState({
-    							snackbarOpen: true,
-    						});
-    					} else {
-    						this.setState({
-    							modalOpen: true,
-    						});
-    						console.error("Server replied: " + response);
-    					}
-    				}
-    			);
-    		}
+    		console.error("FUNKTION REMOVED")
     	}
 
 	
