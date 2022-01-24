@@ -28,9 +28,9 @@ export default class MemberEditDialogContainer extends Component {
 
 		return (
 			<div>
-			        <Button variant='raised' onClick={this.props.handlePasswordReset}>
+			        {/* <Button variant='raised' onClick={this.props.handlePasswordReset}>
                         Passwort Reset
-                    </Button>
+                    </Button> */}
 					<Table>
 						<TableHead>
 						  <TableRow>

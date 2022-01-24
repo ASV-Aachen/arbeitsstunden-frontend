@@ -175,7 +175,7 @@ class EnhancedTable extends React.Component {
 
     return (
 		<div>
-		<MemberEditDialogContainer open={editUserDialogOpen} member={selectedMember} handleClose={()=>this.setState({editUserDialogOpen: false})} />
+		{/* <MemberEditDialogContainer open={editUserDialogOpen} member={selectedMember} handleClose={()=>this.setState({editUserDialogOpen: false})} /> */}
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead

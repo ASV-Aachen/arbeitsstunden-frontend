@@ -67,7 +67,7 @@ export default class MemberDetails extends Component {
 
 					}) }
 					</Typography>
-                    <MemberEditDialogContainer open={editUserDialogOpen} handleClose={()=>this.setState({editUserDialogOpen: false})} />
+                    {/* <MemberEditDialogContainer open={editUserDialogOpen} handleClose={()=>this.setState({editUserDialogOpen: false})} /> */}
 				</div>
 		);
 	}
