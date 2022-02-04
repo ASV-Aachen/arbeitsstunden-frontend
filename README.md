@@ -2,6 +2,11 @@
 Das Arbeitsstunden-Frontend ist eine Web Oberfläche für die Arbeitsstundendatenbank.
 Die Seite ist dabei in React geschrieben und wird im Container per nginx ausgeliefert.
 
+# Anbindung an Keycloak 
+Die Website ist so configuriert das jedes aufrufen nur mit Keycloak Token angenommen wird. Ist dieser nicht im Browser gesetzt wird der Nutzer zu entsprechenden Seite umgeleitet.
+
+**OHNE COOKIE KÖNNEN KEINE DATEN VOM BACKEND GEZOGEN WERDEN**
+
 # Container deployen
 Das Package im Repo kann ohne Einschränkungen im Produktivbetrieb des ASV eingesetzt werden. Es müssen hier keine Env Variablen gesetzt werden, da diese als .env File Teil des Container sind.
 Die entsprechende Datei heißt hier `.env.production`.
