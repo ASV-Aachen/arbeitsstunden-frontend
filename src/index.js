@@ -29,10 +29,6 @@ keycloak.init({ onLoad: initOptions.onLoad })
         } else {
             console.info("Authenticated");
         }
-
-        //React Render
-        ReactDOM.render(<App />, document.getElementById('root'));
-        registerServiceWorker();
     }).then(() => {
         const cookies = new Cookies();
         cookies.set('token', keycloak.token, { path: '/' });
@@ -63,7 +59,12 @@ keycloak.init({ onLoad: initOptions.onLoad })
             keycloak.tokenParsed.email,
             'asv'
         );
+    }).finally(() => {
+        //React Render
+        ReactDOM.render(<App />, document.getElementById('root'));
+        registerServiceWorker();
     })
+
 .catch(() => {
     console.error("Authenticated Failed");
 });
